@@ -73,7 +73,7 @@ async def get_connect():
     # return i
 
 
-@app.post("/activities")
+@app.post("/users")
 async def post_activities(activity: Schema_User, db: Session = Depends(SessionLocal)):
     db_user = get_user_by_id(activity.id, db)
     if db_user:
