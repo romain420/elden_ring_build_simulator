@@ -19,7 +19,7 @@ class User(BaseSQL):
     created_at =    Column(DateTime)
     last_visit =    Column(DateTime)
     nb_builds =     Column(Integer)
-    builds =        Column(Enum)        # not sure about this  but Enum of User_build
+    builds =        Column(String)        # not sure about this  but Enum of User_build, on ne peut pas mettre de classes custom pour l'instant
 
 #table user_build
 class User_build(BaseSQL):
@@ -27,13 +27,13 @@ class User_build(BaseSQL):
 
     id =            Column(String, primary_key=True, index=True)
     name =          Column(String)
-    owner =         Column(User)
+    owner =         Column(String)          # a changer plus tard, pas sur de savoir comment ajouter une classe custom
     created_at =    Column(DateTime)
     last_visit =    Column(DateTime)
-    last_update =   Column(DateTime)    # devrait-on sauvegarder les précédentes versions des builds ? ou useless ?
+    last_update =   Column(DateTime)        # devrait-on sauvegarder les précédentes versions des builds ? ou useless ?
     nb_visits =     Column(Integer)
-    items =         Column(Enum)        # pareil jsuis pas sur mais surement un Enum of Item
-    nb_items =      Column(Integer)     # revient a dire items.size
+    items =         Column(String)    # pareil jsuis pas sur mais surement un Enum of Item, peut pas mettre de classe custom pour l'instant
+    nb_items =      Column(Integer)         # revient a dire items.size
 
 #table item
 class Item(BaseSQL):
@@ -44,8 +44,8 @@ class Item(BaseSQL):
     image =         Column(String)
     description =   Column(String)
     category =      Column(String)
-    dmg_negation =  Column(Enum)        # encore une fois pas sur, surement un Enum of Dictionnaires  le format est: ...{name: "Phy", amount: 7}, {name: "Strike", amount: 6},...
-    resistance =    Column(Enum)    # pareil qu'au dessus
+    dmg_negation =  Column(String)    # encore une fois pas sur, surement un Enum of Dictionnaires  le format est: ...{name: "Phy", amount: 7}, {name: "Strike", amount: 6},...
+    resistance =    Column(String)    # pareil qu'au dessus
     weight =        Column(Integer)
 
 
