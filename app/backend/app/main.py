@@ -41,13 +41,13 @@ app = FastAPI(
 
 @app.get("/")
 def read_root():
-    return "Hello est bienvenue sur ce simulateur de build Elden Ring"
+    return "Hello et bienvenue sur ce simulateur de build Elden Ring"
 
 
 @app.get("/date")
 def get_date():
     current_date = datetime.today().strftime("%d %B %Y")
-    return f"On est a actuellement le {current_date}"
+    return f"On est actuellement le {current_date}"
 
 
 # @app.post("/activities/")
