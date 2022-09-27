@@ -1,11 +1,7 @@
 # from pydantic import BaseModel, Field
 # from uuid import uuid4
 # from typing_extensions import Annotated
-# from . import schemas, models, services
-from schemas import User as Schema_User
-# from models import Activity as Models_Activity
-from models import BaseSQL
-from services import get_user_by_id, create_user
+import schemas, models, services
 from database import engine, SessionLocal
 from fastapi import Depends, FastAPI, HTTPException
 from datetime import datetime
@@ -29,16 +25,6 @@ app = FastAPI(
     version="0.0.1",
 )
 
-
-# schema of data
-# from typing import Optional
-# class NewActivity(BaseModel):
-#     id : Annotated[str, Field(default_factory=lambda: uuid4().hex)]
-#     activity_name : str
-#     mean_speed : float
-#     #start_date : datetime
-#     description : str = None
-
 @app.get("/")
 def read_root():
     return "Hello et bienvenue sur ce simulateur de build Elden Ring"
@@ -56,7 +42,7 @@ def get_date():
 
 @app.on_event("startup")
 async def startup_event():
-    BaseSQL.metadata.create_all(bind=engine)
+    models.BaseSQL.metadata.create_all(bind=engine)
 
 
 # @app.get("/base_test")
@@ -74,9 +60,9 @@ async def get_connect():
 
 
 @app.post("/users")
-async def post_activities(activity: Schema_User, db: Session = Depends(SessionLocal)):
-    db_user = get_user_by_id(activity.id, db)
+async def post_activities(activity: schemas.User, db: Session = Depends(SessionLocal)):
+    db_user = services.get_user_by_id(activity.id, db)
     if db_user:
         raise HTTPException(status_code=400, detail="This activity already exist")
-    create_user(db, activity)
+    services.create_user(db, activity)
 
