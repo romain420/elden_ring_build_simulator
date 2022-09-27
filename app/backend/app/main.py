@@ -1,22 +1,25 @@
 # from pydantic import BaseModel, Field
 # from uuid import uuid4
 # from typing_extensions import Annotated
+# from app.backend.app.models import User
 import schemas, models, services
 from database import engine, SessionLocal
 from fastapi import Depends, FastAPI, HTTPException
 from datetime import datetime
 from sqlalchemy.orm import Session
+from typing import Optional, List
+
 
 # BaseSQL.metadata.create_all(bind=engine)
 
 
-# Dependency
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+# # Dependency
+# def get_db():
+#     db = SessionLocal()
+#     try:
+#         yield db
+#     finally:
+#         db.close()
 
 
 app = FastAPI(
@@ -24,6 +27,8 @@ app = FastAPI(
     description="My description",
     version="0.0.1",
 )
+
+db = SessionLocal()
 
 @app.get("/")
 def read_root():
@@ -35,10 +40,6 @@ def get_date():
     current_date = datetime.today().strftime("%d %B %Y")
     return f"On est actuellement le {current_date}"
 
-
-# @app.post("/activities/")
-# def create_activity(activity : NewActivity):
-#     return {"message":f"this activity has been successfully imported {activity}"}
 
 @app.on_event("startup")
 async def startup_event():
@@ -58,9 +59,14 @@ async def get_connect():
             print(i)
     # return i
 
+# @app.get("/users", response_model = List[models.User], status_code = 200)
+# def get_all_users():
+    
+
+
 
 @app.post("/users")
-async def post_activities(activity: schemas.User, db: Session = Depends(SessionLocal)):
+async def post_activities(activity: schemas.User):
     db_user = services.get_user_by_id(activity.id, db)
     if db_user:
         raise HTTPException(status_code=400, detail="This activity already exist")
