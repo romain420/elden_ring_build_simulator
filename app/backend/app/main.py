@@ -27,7 +27,7 @@ def read_root():
 
 @app.get("/date")
 def get_date():
-    current_date = datetime.today().strftime("%d %B %Y")
+    current_date = datetime.today()
     return f"On est actuellement le {current_date}"
 
 
@@ -58,4 +58,10 @@ async def remove_user(user:schemas.User):
     deleted_user = services.delete_user_by_name(db, user)
     
     return deleted_user
+
+@app.put("/user_last_visit")#TODO don't forget to change the name by 'update_user_info'
+async def update_last_visit(user:schemas.User):
+    update_user = services.update_user_info(db, user)
+    
+    return update_user
 #-----------------------------------------------------------------#
