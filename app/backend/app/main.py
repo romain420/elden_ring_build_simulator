@@ -51,24 +51,27 @@ async def startup_event():
 #     BaseSQL.metadata.create_all(bind=engine)
 
 
-@app.get("/db_connect")
-async def get_connect():
-    with engine.connect() as con:
-        rs = con.execute('SELECT * FROM activities')
-        for i in rs:
-            print(i)
-    # return i
 
-# @app.get("/users", response_model = List[models.User], status_code = 200)
-# def get_all_users():
+
+@app.get("/users", status_code = 200)
+def get_all_users():
+    users_all = db.query(models.User).all()
     
+    return users_all
 
+
+#do basically the same as above function
+# @app.get("/db_connect")
+# async def get_connect():
+#     with engine.connect() as con:
+#         rs = con.execute('SELECT * FROM users;')
+#         for i in rs:
+#             print(i)
+#     return i
 
 
 @app.post("/users")
 async def post_activities(activity: schemas.User):
-    db_user = services.get_user_by_id(activity.id, db)
-    if db_user:
-        raise HTTPException(status_code=400, detail="This activity already exist")
+    # db_user = services.get_user_by_id(activity.id, db)
     services.create_user(db, activity)
 
