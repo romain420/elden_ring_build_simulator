@@ -42,26 +42,20 @@ def get_date():
 
 
 
-
+#--------------------------user API part--------------------------#
 @app.get("/users", status_code = 200)
 def get_all_users():
-    users_all = db.query(models.User).all()
+    all_users = services.get_user(db)
     
-    return users_all
-
-
-#do basically the same as above function
-# @app.get("/db_connect")
-# async def get_connect():
-#     with engine.connect() as con:
-#         rs = con.execute('SELECT * FROM users;')
-#         for i in rs:
-#             print(i)
-#     return i
-
+    return all_users
 
 @app.post("/users")
-async def post_activities(activity: schemas.User):
-    # db_user = services.get_user_by_id(activity.id, db)
-    services.create_user(db, activity)
-
+async def post_user(user: schemas.User):
+    services.create_user(db, user)
+    
+@app.delete("/delete_user")
+async def remove_user(user:schemas.User):
+    deleted_user = services.delete_user_by_name(db, user)
+    
+    return deleted_user
+#-----------------------------------------------------------------#
