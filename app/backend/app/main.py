@@ -1,7 +1,6 @@
 # from pydantic import BaseModel, Field
 # from uuid import uuid4
 # from typing_extensions import Annotated
-# from app.backend.app.models import User
 import schemas, models, services
 from database import engine, SessionLocal
 from fastapi import Depends, FastAPI, HTTPException
@@ -10,16 +9,7 @@ from sqlalchemy.orm import Session
 from typing import Optional, List
 
 
-# BaseSQL.metadata.create_all(bind=engine)
-
-
-# # Dependency
-# def get_db():
-#     db = SessionLocal()
-#     try:
-#         yield db
-#     finally:
-#         db.close()
+models.BaseSQL.metadata.create_all(bind=engine)
 
 
 app = FastAPI(
@@ -41,9 +31,9 @@ def get_date():
     return f"On est actuellement le {current_date}"
 
 
-@app.on_event("startup")
-async def startup_event():
-    models.BaseSQL.metadata.create_all(bind=engine)
+# @app.on_event("startup")
+# async def startup_event():
+#     models.BaseSQL.metadata.create_all(bind=engine)
 
 
 # @app.get("/base_test")

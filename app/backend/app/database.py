@@ -12,7 +12,7 @@ POSTGRES_DB = os.environ.get("POSTGRES_DB")
 SQLALCHEMY_DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@db/{POSTGRES_DB}"
 print(SQLALCHEMY_DATABASE_URL)
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL, echo=True)
+engine = create_engine(SQLALCHEMY_DATABASE_URL)#, echo=True)#add echo part to get more logs with db
 
 BaseSQL = declarative_base()
 
