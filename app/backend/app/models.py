@@ -1,7 +1,8 @@
 from sqlite3 import Date
-from sqlalchemy import Column, String, DateTime, Float, Integer, Enum
+from sqlalchemy import Column, String, DateTime, Float, Integer, Enum, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID
 from database import BaseSQL
+from sqlalchemy.orm import relationship
 
 
 #Creation de toute les tables de la db
@@ -20,6 +21,8 @@ class User(BaseSQL):
     last_visit =    Column(DateTime)
     nb_builds =     Column(Integer)
     builds =        Column(String)        # not sure about this  but Enum of User_build, on ne peut pas mettre de classes custom pour l'instant
+    
+    # build = relationship("User_build", back_populates="owner")
 
 #table user_build
 class User_build(BaseSQL):
@@ -27,13 +30,16 @@ class User_build(BaseSQL):
 
     id =            Column(String, primary_key=True, index=True)
     name =          Column(String)
-    owner =         Column(String)          # a changer plus tard, pas sur de savoir comment ajouter une classe custom
+    owner_id =         Column(String)#, ForeignKey("Users.id"))          # a changer plus tard, pas sur de savoir comment ajouter une classe custom
     created_at =    Column(DateTime)
     last_visit =    Column(DateTime)
     last_update =   Column(DateTime)        # devrait-on sauvegarder les précédentes versions des builds ? ou useless ?
     nb_visits =     Column(Integer)
-    items =         Column(String)    # pareil jsuis pas sur mais surement un Enum of Item, peut pas mettre de classe custom pour l'instant
+    items =         Column(String)#, ForeignKey("Item.id"))    # pareil jsuis pas sur mais surement un Enum of Item, peut pas mettre de classe custom pour l'instant
     nb_items =      Column(Integer)         # revient a dire items.size
+    
+    # owner = relationship("User", back_populates="build")
+    # items = relationship("Item", back_populates="stuff")
 
 #table item
 class Item(BaseSQL):
@@ -47,16 +53,18 @@ class Item(BaseSQL):
     dmg_negation =  Column(String)    # encore une fois pas sur, surement un Enum of Dictionnaires  le format est: ...{name: "Phy", amount: 7}, {name: "Strike", amount: 6},...
     resistance =    Column(String)    # pareil qu'au dessus
     weight =        Column(Integer)
+    
+    # stuff = relationship("User_build", back_populates="items")
 
 
-#table build
-class Build(BaseSQL):
-    __tablename__= "builds"
+# #table build
+# class Build(BaseSQL):
+#     __tablename__= "builds"
 
-    id =            Column(String, primary_key=True, index=True)
-    elmet :         Column(String)
-    gantlet :       Column(String)
-    choose :        Column(String)
-    weapon :        Column(String)
+#     id =            Column(String, primary_key=True, index=True)
+#     elmet :         Column(String)
+#     gantlet :       Column(String)
+#     choose :        Column(String)
+#     weapon :        Column(String)
 
 
