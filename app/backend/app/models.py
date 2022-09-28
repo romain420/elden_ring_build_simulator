@@ -11,7 +11,7 @@ from sqlalchemy.orm import relationship
 class User(BaseSQL):
     __tablename__ = "users"
 
-    id =            Column(String, primary_key=True, index=True)   #Column(UUID(as_uuid=True), primary_key=True, index=True)
+    id =            Column(UUID(as_uuid=True), primary_key=True, index=True)#Column(String, primary_key=True, index=True)   
     First_name =    Column(String,nullable = False)
     Last_name =     Column(String,nullable = False)
     date_of_birth = Column(DateTime,nullable = False)
@@ -28,24 +28,24 @@ class User(BaseSQL):
 class User_build(BaseSQL):
     __tablename__ = "user_builds"
 
-    id =            Column(String, primary_key=True, index=True)
+    id =            Column(UUID(as_uuid=True), primary_key=True, index=True)#Column(String, primary_key=True, index=True)
     name =          Column(String,nullable = False)          # a changer plus tard, pas sur de savoir comment ajouter une classe custom
     created_at =    Column(DateTime,nullable = False)
     last_visit =    Column(DateTime,nullable = False)
     last_update =   Column(DateTime,nullable = False)        # devrait-on sauvegarder les précédentes versions des builds ? ou useless ?
     nb_visits =     Column(Integer,nullable = False)
     nb_items =      Column(Integer,nullable = False) 
-    items_id =      Column(String, ForeignKey("items.id"))    # pareil jsuis pas sur mais surement un Enum of Item, peut pas mettre de classe custom pour l'instant
-    owner_id =      Column(String, ForeignKey("users.id"))        # revient a dire items.size
+    # items_id =      Column(UUID(as_uuid=True), ForeignKey("items.id"))    # pareil jsuis pas sur mais surement un Enum of Item, peut pas mettre de classe custom pour l'instant
+    owner_id =      Column(UUID(as_uuid=True), ForeignKey("users.id"))        # revient a dire items.size
     
     owner = relationship("User", back_populates="build")
-    item = relationship("Item", back_populates="stuff")
+    # item = relationship("Item", back_populates="stuff")
 
 #table item
 class Item(BaseSQL):
     __tablename__ = "items"
 
-    id =            Column(String, primary_key=True, index=True)
+    id =            Column(UUID(as_uuid=True), primary_key=True, index=True)#Column(String, primary_key=True, index=True)
     name =          Column(String,nullable = False)
     image =         Column(String,nullable = False)
     description =   Column(String,nullable = False)
@@ -54,7 +54,7 @@ class Item(BaseSQL):
     resistance =    Column(String,nullable = False)    # pareil qu'au dessus
     weight =        Column(Integer,nullable = False)
     
-    stuff = relationship("User_build", back_populates="item")
+    # stuff = relationship("User_build", back_populates="item")
 
 
 # #table build
