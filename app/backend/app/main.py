@@ -6,17 +6,10 @@ from database import engine, SessionLocal
 from fastapi import Depends, FastAPI, HTTPException
 from datetime import datetime
 from sqlalchemy.orm import Session
+from typing import Optional, List
 
-# BaseSQL.metadata.create_all(bind=engine)
 
-
-# Dependency
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+models.BaseSQL.metadata.create_all(bind=engine)
 
 
 app = FastAPI(
@@ -25,6 +18,8 @@ app = FastAPI(
     version="0.0.1",
 )
 
+db = SessionLocal()
+
 @app.get("/")
 def read_root():
     return "Hello et bienvenue sur ce simulateur de build Elden Ring"
@@ -32,17 +27,13 @@ def read_root():
 
 @app.get("/date")
 def get_date():
-    current_date = datetime.today().strftime("%d %B %Y")
+    current_date = datetime.today()
     return f"On est actuellement le {current_date}"
 
 
-# @app.post("/activities/")
-# def create_activity(activity : NewActivity):
-#     return {"message":f"this activity has been successfully imported {activity}"}
-
-@app.on_event("startup")
-async def startup_event():
-    models.BaseSQL.metadata.create_all(bind=engine)
+# @app.on_event("startup")
+# async def startup_event():
+#     models.BaseSQL.metadata.create_all(bind=engine)
 
 
 # @app.get("/base_test")
@@ -50,19 +41,27 @@ async def startup_event():
 #     BaseSQL.metadata.create_all(bind=engine)
 
 
-@app.get("/db_connect")
-async def get_connect():
-    with engine.connect() as con:
-        rs = con.execute('SELECT * FROM activities')
-        for i in rs:
-            print(i)
-    # return i
 
+#--------------------------user API part--------------------------#
+@app.get("/users", status_code = 200)
+def get_all_users():
+    all_users = services.get_user(db)
+    
+    return all_users
 
 @app.post("/users")
-async def post_activities(activity: schemas.User, db: Session = Depends(SessionLocal)):
-    db_user = services.get_user_by_id(activity.id, db)
-    if db_user:
-        raise HTTPException(status_code=400, detail="This activity already exist")
-    services.create_user(db, activity)
+async def post_user(user: schemas.User):
+    services.create_user(db, user)
+    
+@app.delete("/delete_user")
+async def remove_user(user:schemas.User):
+    deleted_user = services.delete_user_by_name(db, user)
+    
+    return deleted_user
 
+@app.put("/user_last_visit")#TODO don't forget to change the name by 'update_user_info'
+async def update_last_visit(user:schemas.User):
+    update_user = services.update_user_info(db, user)
+    
+    return update_user
+#-----------------------------------------------------------------#
