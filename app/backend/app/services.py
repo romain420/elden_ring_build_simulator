@@ -1,4 +1,5 @@
 # from msilib import schema
+from typing import List
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
 import schemas, models
@@ -25,16 +26,6 @@ def create_user(db: Session, post: schemas.User) -> models.User:#TODO add condit
     return db_post
 
 
-#delete ligne in table User
-def delete_user_by_name(db: Session, delete:schemas.User):
-    record = db.query(models.User).filter(models.User.First_name == delete.First_name).first()
-    if not record:
-        raise HTTPException(status_code=404, detail= f"User {delete.First_name} doesn't exist. We can't delete it.")
-    db.delete(record)
-    db.commit()
-    return f"The user : {delete.First_name} has been deleted successfully"
-
-
 #update fields in table User
 def update_user_info(db:Session, update:schemas.User):#TODO try to update 1 field for the moment after that let's update 1 or more field at the same time
     record = db.query(models.User).filter(models.User.id == update.id).first()
@@ -46,4 +37,40 @@ def update_user_info(db:Session, update:schemas.User):#TODO try to update 1 fiel
     
     return f"{update.First_name} {update.Last_name} as log in {update.last_visit}"
 #models.User.last_visit == update.last_visit
+
+
+#this methode is suppose to remove all user info exept 'id' if user decide to remove his account
+def kill_user_info(db:Session, update:schemas.User):
+    record = db.query(models.User).filter(models.User.id == update.id).first()
+    if not record:
+        raise HTTPException(status_code=404, detail= f"User {update.First_name} {update.Last_name} doesn't exist. We can't modify it.")
+    # update_dict = dict(update)
+    # # list_fields = update_dict
+    # list_record = []
+    # for i in list(update_dict.keys())[1:]:#TODO maybe add a contidition on field type 
+    #     # print(i)
+    #     # list_record.append(record.i) #= "none"
+    record.First_name = "none"
+    record.Last_name = "none"
+    record.date_of_birth = datetime(1, 1, 1, 0, 0)
+    record.email = "none"
+    record.password = "none"
+    record.created_at = datetime(1, 1, 1, 0, 0)
+    record.last_visit = datetime(1, 1, 1, 0, 0)
+    record.nb_builds = -1
+    record.builds = "none"
+    db.commit()
+    return "This user have been succesfully deleted"#f"this is the record list {list_record}"#
+    
+
+#********this methode is not alwode because we can not remove a masterdata from db********#
+#delete ligne in table User
+# def delete_user_by_name(db: Session, delete:schemas.User):
+#     record = db.query(models.User).filter(models.User.First_name == delete.First_name).first()
+#     if not record:
+#         raise HTTPException(status_code=404, detail= f"User {delete.First_name} doesn't exist. We can't delete it.")
+#     db.delete(record)
+#     db.commit()
+#     return f"The user : {delete.First_name} has been deleted successfully"
+#******************************************************************************************#
 #-----------------------------------------------------------------#
