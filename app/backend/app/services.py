@@ -40,7 +40,7 @@ def update_user_info(db:Session, update:schemas.User):#TODO try to update 1 fiel
 
 
 #this methode is suppose to remove all user info exept 'id' if user decide to remove his account
-def kill_user_info(db:Session, update:schemas.User):
+def kill_user_info(db:Session, update:schemas.User):#TODO find a more complient way to smash the data (for loop or something)
     record = db.query(models.User).filter(models.User.id == update.id).first()
     if not record:
         raise HTTPException(status_code=404, detail= f"User {update.First_name} {update.Last_name} doesn't exist. We can't modify it.")
