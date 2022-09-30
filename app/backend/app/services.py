@@ -22,7 +22,7 @@ def create_user(db: Session, post: schemas.User) -> models.User:#TODO add condit
     db.add(db_post)
     db.commit()
     db.refresh(db_post)
-    # db_post.id = str(db_post.id)
+    db_post.id = str(db_post.id)
     return db_post
 
 
