@@ -15,7 +15,7 @@ class User(BaseSQL):
     First_name =    Column(String,nullable = False)
     Last_name =     Column(String,nullable = False)
     date_of_birth = Column(DateTime,nullable = False)
-    email =         Column(String,nullable=False,unique=True,index=True)
+    email =         Column(String,nullable=False)#TODO manage the fact that user can't have a the same email as an other one in frontend part
     password  =     Column(String,nullable = False)
     created_at =    Column(DateTime,nullable = False)
     last_visit =    Column(DateTime,nullable = False)
