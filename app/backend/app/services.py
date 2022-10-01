@@ -26,6 +26,15 @@ def create_user(db: Session, post: schemas.User) -> models.User:#TODO add condit
     return db_post
 
 
+#this methode is created to display all the different build of a user
+def get_user_build(db: Session, get_user:schemas.User):
+    record = db.query(models.User).filter(models.User.id == get_user.id).first()
+    if not record:
+        raise HTTPException(status_code=404, detail= "This user doesn't exist.")
+    user_build = db.query()
+
+
+
 #update fields in table User
 def update_user_info(db:Session, update:schemas.User):#TODO try to update 1 field for the moment after that let's update 1 or more field at the same time
     record = db.query(models.User).filter(models.User.id == update.id).first()
