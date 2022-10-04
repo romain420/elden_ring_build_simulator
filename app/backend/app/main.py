@@ -52,16 +52,23 @@ def get_all_users():
 @app.post("/users")
 async def post_user(user: schemas.User):
     services.create_user(db, user)
+   
+#this API as to be avoid 
+# @app.delete("/delete_user")
+# async def remove_user(user:schemas.User):
+#     deleted_user = services.delete_user_by_name(db, user)
     
-@app.delete("/delete_user")
-async def remove_user(user:schemas.User):
-    deleted_user = services.delete_user_by_name(db, user)
-    
-    return deleted_user
+#     return deleted_user
 
 @app.put("/user_last_visit")#TODO don't forget to change the name by 'update_user_info'
 async def update_last_visit(user:schemas.User):
     update_user = services.update_user_info(db, user)
     
     return update_user
+
+@app.put("/delete_user")
+async def delete_user(user:schemas.User):
+    removed_user = services.kill_user_info(db, user)
+    
+    return removed_user
 #-----------------------------------------------------------------#
