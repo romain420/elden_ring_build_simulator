@@ -35,11 +35,11 @@ class User_build(BaseSQL):
     last_update =   Column(DateTime,nullable = False)        # devrait-on sauvegarder les précédentes versions des builds ? ou useless ?
     nb_visits =     Column(Integer,nullable = False)
     nb_items =      Column(Integer,nullable = False) 
-    # items_id =      Column(UUID(as_uuid=True), ForeignKey("items.id"))    # pareil jsuis pas sur mais surement un Enum of Item, peut pas mettre de classe custom pour l'instant
+    items_id =      Column(UUID(as_uuid=True), ForeignKey("items.id"))    # pareil jsuis pas sur mais surement un Enum of Item, peut pas mettre de classe custom pour l'instant
     owner_id =      Column(UUID(as_uuid=True), ForeignKey("users.id"))        # revient a dire items.size
     
     owner = relationship("User", back_populates="build")
-    # item = relationship("Item", back_populates="stuff")
+    item = relationship("Item", back_populates="stuff")
 
 #table item
 class Item(BaseSQL):
@@ -54,7 +54,7 @@ class Item(BaseSQL):
     resistance =    Column(String,nullable = False)    # pareil qu'au dessus
     weight =        Column(Integer,nullable = False)
     
-    # stuff = relationship("User_build", back_populates="item")
+    stuff = relationship("User_build", back_populates="item")
 
 
 # #table build
