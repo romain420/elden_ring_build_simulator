@@ -20,7 +20,7 @@ class User(BaseSQL):
     created_at =    Column(DateTime,nullable = False)
     last_visit =    Column(DateTime,nullable = False)
     nb_builds =     Column(Integer,nullable = False)
-    builds =        Column(String,nullable = False)        # not sure about this  but Enum of User_build, on ne peut pas mettre de classes custom pour l'instant
+    builds =        Column(String,nullable = False)        # not sure about this  but Enum of User_build, on ne peut pas mettre de classes custom pour l'instant.
     
     build = relationship("User_build", back_populates="owner")
 
