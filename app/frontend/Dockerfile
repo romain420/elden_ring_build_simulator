@@ -2,6 +2,7 @@ FROM node:12 AS build
 
 WORKDIR /app
 
+EXPOSE 5000:80
 COPY package.json ./
 RUN npm install
 COPY . ./
