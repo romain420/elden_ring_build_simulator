@@ -15,7 +15,8 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  padding-top: 5%;
+  padding-bottom: 5%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,4 +36,35 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* part for form style */
+.login-form{
+  background-color: #282c34;
+  margin: 0 auto;
+}
+
+.login-form-input {
+  display: block;
+  box-sizing: border-box;
+  width: 50%;
+  border-radius: 4px;
+  border: 1px solid white;
+  padding: 10px 15px;
+  margin: 0px 10px 10px 25%;
+  font-size: 14px;
+}
+
+.login-form-button{
+  background: #556267;
+  color: white;
+  text-transform: uppercase;
+  border: none;
+  margin-top: 40px;
+  margin-bottom: 25%;
+  padding: 20px;
+  font-size: 16px;
+  font-weight: 100;
+  letter-spacing: 10px;
+  border-radius: 4px;
 }

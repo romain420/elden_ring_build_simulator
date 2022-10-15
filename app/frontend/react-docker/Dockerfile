@@ -2,14 +2,14 @@ FROM node:14-alpine
 
 WORKDIR /app
 
-COPY package.json ./
+ENV PATH /app/node_modules/.bin:$PATH
 
+COPY package.json ./
 COPY package-lock.json ./
 
-RUN yarn install --frozen-lockfile
+RUN npm install
 
 COPY . .
-
 EXPOSE 3000
 
 CMD ["npm", "start"]
