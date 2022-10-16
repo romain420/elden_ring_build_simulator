@@ -8,15 +8,17 @@ export function LoginForm() {
 
   return (
     <form className="login-form" onSubmit={handleSubmit((data) => setData(JSON.stringify(data)))}>
-      <input className="login-form-input" {...register("Pseudo")} placeholder="Pseudo" />
+      <input className="login-form-input" {...register("pseudo")} placeholder="Pseudo" />
       <input className="login-form-input" {...register("firstName")} placeholder="First name" />
-      <select className="login-form-input" {...register("category", { required: true })}>
-        <option value="">Select...</option>
-        <option value="A">Option A</option>
-        <option value="B">Option B</option>
+      <input className="login-form-input" {...register("email")} placeholder="Email" />
+      <select className="login-form-input" {...register("gender", { required: true })}>
+        <option value="">Select Gender...</option>
+        <option value="women">Women</option>
+        <option value="man">Man</option>
+        <option value="other">Other</option>
       </select>
-      <textarea className="login-form-input"  {...register("aboutYou")} placeholder="About you" />
-      <p>{data}</p>
+      <input className="login-form-input" {...register("password")} placeholder="Password" />
+      <input className="login-form-input" {...register("confirmPassword")} placeholder="Confirm Password" />
       <input className="login-form-button" type="submit" />
     </form>
   );

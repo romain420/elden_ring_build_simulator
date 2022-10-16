@@ -1,3 +1,14 @@
+html{
+ background-color: #282c34;
+}
+
+ body {
+  background-image: url("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.redd.it%2F3e2afpjsi4f61.png&f=1&nofb=1&ipt=70e4c175e9a633f24e120835a618979459eb7c4b721affa2ed497e321e9568d8&ipo=images");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: auto 100%;
+}
+
 .App {
   text-align: center;
 }
@@ -14,7 +25,6 @@
 }
 
 .App-header {
-  background-color: #282c34;
   padding-top: 5%;
   padding-bottom: 5%;
   display: flex;
@@ -40,7 +50,6 @@
 
 /* part for form style */
 .login-form{
-  background-color: #282c34;
   margin: 0 auto;
 }
 
@@ -61,7 +70,7 @@
   text-transform: uppercase;
   border: none;
   margin-top: 40px;
-  margin-bottom: 25%;
+  margin-bottom: auto;
   padding: 20px;
   font-size: 16px;
   font-weight: 100;
