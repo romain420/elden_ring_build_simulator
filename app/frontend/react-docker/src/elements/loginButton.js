@@ -1,13 +1,11 @@
-import { StyleSheet, Button, View, SafeAreaView,Text, Alert } from 'react-native';
 import '../App.css';
+import * as React from 'react';
 
-export function LoginButton(){
-    return(
-        <Button
-            title="Login"
-            onPress={() => Alert.alert(
-            'You are going to login')}
-        />
-    )
+export function LoginButton(props) {
+    return(<button type="button" className="login-button">
+               Sign In
+           </button>)
 }
+
+
 

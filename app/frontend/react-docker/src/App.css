@@ -77,3 +77,8 @@ html{
   letter-spacing: 10px;
   border-radius: 4px;
 }
+
+/* login and signin Button */
+.login-button{
+    background-color: #ffafcc;
+}
