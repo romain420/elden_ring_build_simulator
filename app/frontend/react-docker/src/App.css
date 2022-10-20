@@ -9,10 +9,6 @@ html{
   background-size: auto 100%;
 }
 
-.App {
-  text-align: center;
-}
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -102,4 +98,11 @@ html{
 .front-page-headband{
   margin-left: 77%;
   width: 500px;
+}
+
+.App{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Source Sans Pro', sans-serif; 
 }
