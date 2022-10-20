@@ -1,0 +1,24 @@
+.slider{
+    display: flex;
+    align-items: center;
+    margin: 20px;
+}
+
+.slider-image{
+    width: 60%;
+}
+
+.slider-content{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+    color: #fff9bf;
+}
+
+.slider-title{
+    text-align: center;
+}
