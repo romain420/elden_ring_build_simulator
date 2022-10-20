@@ -4,11 +4,19 @@ import {LoginButton} from './elements/LoginButton.js';
 import {SigninButton} from './elements/SigninButton.js';*/
 import { Hero } from './components/Hero.js';
 import { Slider } from './components/Slider.js';
+import { NavBar } from "./components/NavBar.js";
 
+
+const navBarLinks = [
+  {url:"#", title:"LogIn"},
+  {url:"#", title:"Build"},
+  {url:"#", title:"Weapon"}
+];
 
 export default function App() {
   return (
     <div className="App">
+      <NavBar navBarLinks={navBarLinks}/>
       <Hero/>
       <Slider imageSrc={"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.wccftech.com%2Fwp-content%2Fuploads%2F2021%2F06%2FER_KEY-ART-scaled-e1623411764381-2048x1052.jpg&f=1&nofb=1&ipt=cca417bfb3c279ac47510eb50b9ec92276ccdc72c54ab276a23ae78e0dc76af4&ipo=images"}
         title={"Create your own build"} 
