@@ -5,12 +5,14 @@ import {SigninButton} from './elements/SigninButton.js';*/
 import { Hero } from './components/Hero.js';
 import { Slider } from './components/Slider.js';
 import { NavBar } from "./components/NavBar.js";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 
 const navBarLinks = [
-  {url:"#", title:"LogIn"},
-  {url:"#", title:"Build"},
-  {url:"#", title:"Weapon"}
+  {url:"/login", title:"LogIn"},
+  {url:"/signin", title:"SignIn"},
+  {url:"/build", title:"Build"},
+  {url:"/weapon", title:"Weapon"}
 ];
 
 export default function App() {
