@@ -1,13 +1,9 @@
 import "./App.css";
-/*import {LoginForm} from './elements/LoginForm.js';
-import {LoginButton} from './elements/LoginButton.js';
-import {SigninButton} from './elements/SigninButton.js';
-import { Hero } from './pages/components/Hero.js';
-import { Slider } from './pages/components/Slider.js';
-import { NavBar } from "./pages/components/NavBar.js";*/
 import { Home } from "./pages/Home";
 import { YourSpace } from "./pages/YourSpace";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { YourWeapon } from "./pages/YourWeapon";
+import { ErrorPage } from "./pages/ErrorPage";
 
 
 export default function App() {
@@ -17,12 +13,15 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home/>} />
         <Route path="/build_space" element={<YourSpace/>} />
+        <Route path="/weapon" element={<YourWeapon/>} />
+        <Route path="*" element={<ErrorPage/>} />
       </Routes>
     </Router>
   );
 }
 
 
+//<Route path="/build_space/:username" element={<YourSpace/>} />
 /*<div className="App">
       <NavBar navBarLinks={navBarLinks}/>
       <Hero/>

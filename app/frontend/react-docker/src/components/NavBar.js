@@ -3,7 +3,7 @@ import { FiMenu, FiX } from 'react-icons/fi'
 import './NavBar.css'
 
 
-export const NavBar = ({navBarLinks}) => {
+export const NavBar = ({navBarLinks, navBarTitle}) => {
     const [menuClicked, setMenuClicked] = useState(false);
     const toggleMenuClick = () => {
         setMenuClicked(!menuClicked);
@@ -11,7 +11,7 @@ export const NavBar = ({navBarLinks}) => {
 
   return (
     <nav className='navbar'>
-        <span className='navbar-logo'>Elden Ring Build Creator</span>
+        <span className='navbar-logo'>Elden Ring {navBarTitle}</span>
         {menuClicked ? (
             <FiX size={25} className='navbar-menu' onClick={toggleMenuClick}/>
         ) : (
