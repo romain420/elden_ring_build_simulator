@@ -1,29 +1,18 @@
-import "./App.css";
-/*import {LoginForm} from './elements/LoginForm.js';
-import {LoginButton} from './elements/LoginButton.js';
-import {SigninButton} from './elements/SigninButton.js';
-import { Hero } from './pages/components/Hero.js';
-import { Slider } from './pages/components/Slider.js';
-import { NavBar } from "./pages/components/NavBar.js";*/
-import { Home } from "./pages/Home";
-import { YourSpace } from "./pages/YourSpace";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React from 'react'
+import { Hero } from './components/Hero.js';
+import { Slider } from './components/Slider.js';
+import { NavBar } from './components/NavBar.js';
 
+const navBarLinks = [
+    {url:"/login", title:"LogIn"},
+    {url:"/signin", title:"SignIn"},
+    {url:"/build_space", title:"Build"},
+    {url:"/weapon", title:"Weapon"}
+  ];
 
-export default function App() {
+export function Home() {
   return (
-    
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home/>} />
-        <Route path="/build_space" element={<YourSpace/>} />
-      </Routes>
-    </Router>
-  );
-}
-
-
-/*<div className="App">
+    <div className="App">
       <NavBar navBarLinks={navBarLinks}/>
       <Hero/>
       <Slider imageSrc={"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.wccftech.com%2Fwp-content%2Fuploads%2F2021%2F06%2FER_KEY-ART-scaled-e1623411764381-2048x1052.jpg&f=1&nofb=1&ipt=cca417bfb3c279ac47510eb50b9ec92276ccdc72c54ab276a23ae78e0dc76af4&ipo=images"}
@@ -35,5 +24,7 @@ export default function App() {
         subtitle={"Scale your weapon to get the most surgeon build for PvE and PvP"} 
         flipped={true}
       />
-    </div>*/
-//<Hero imageSrc={'./assets/image1.jpeg'}/>
+    </div>
+  )
+}
+
