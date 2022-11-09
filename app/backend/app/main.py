@@ -43,22 +43,46 @@ def get_date():
 
 
 #--------------------------user API part--------------------------#
+
+#-------------GET PART-------------#
 @app.get("/users", status_code = 200)
 def get_all_users():
     all_users = services.get_user(db)
     return all_users
 
+@app.get("/user_builds", status_code = 200)
+def get_all_user_builds():
+    all_user_builds = services.get_user_builds(db)
+    return all_user_builds
+
+@app.get("/items", status_code = 200)
+def get_items():
+    all_items = services.get_items(db)
+    return all_items
+
+@app.get("/users_summary", status_code = 200)
+def display_all_users():
+    all_names = services.get_summary(db) 
+    return all_names
+
 @app.get("/display_users", status_code = 200)
 def display_all_users():
-    all_users = services.get_user(db)
-    to_return = ""
-    for user in all_users:
-        to_return += (user.Last_name + " " + user.First_name + "    |    ")
-    return to_return
+    all_names = services.get_summary(db) 
+    return all_names
 
-@app.post("/users")
+
+#-------------POST PART-------------#
+@app.post("/user")
 async def post_user(user: schemas.User):
     services.create_user(db, user)
+
+@app.post("/user_build")
+async def post_user_build(user_build: schemas.User_build):
+    services.create_user_build(db, user_build)
+
+@app.post("/item")
+async def post_item(item: schemas.Item):
+    services.create_item(db, item)
    
 #this API as to be avoid 
 # @app.delete("/delete_user")
@@ -67,6 +91,8 @@ async def post_user(user: schemas.User):
     
 #     return deleted_user
 
+
+#-------------PUT PART-------------#
 @app.put("/user_last_visit")#TODO don't forget to change the name by 'update_user_info'
 async def update_last_visit(user:schemas.User):
     update_user = services.update_user_info(db, user)
@@ -78,4 +104,5 @@ async def delete_user(user:schemas.User):
     removed_user = services.kill_user_info(db, user)
     
     return removed_user
+
 #-----------------------------------------------------------------#
