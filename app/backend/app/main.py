@@ -46,8 +46,15 @@ def get_date():
 @app.get("/users", status_code = 200)
 def get_all_users():
     all_users = services.get_user(db)
-    
     return all_users
+
+@app.get("/display_users", status_code = 200)
+def display_all_users():
+    all_users = services.get_user(db)
+    to_return = ""
+    for user in all_users:
+        to_return += (user.Last_name + " " + user.First_name + "    |    ")
+    return to_return
 
 @app.post("/users")
 async def post_user(user: schemas.User):
