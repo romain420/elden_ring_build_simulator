@@ -45,30 +45,35 @@ def get_date():
 #--------------------------user API part--------------------------#
 
 #-------------GET PART-------------#
-@app.get("/users", status_code = 200)
+@app.get("/users", status_code=200)
 def get_all_users():
-    all_users = services.get_user(db)
+    all_users = services.get_users(db)
     return all_users
 
-@app.get("/user_builds", status_code = 200)
+@app.get("/user_builds", status_code=200)
 def get_all_user_builds():
     all_user_builds = services.get_user_builds(db)
     return all_user_builds
 
-@app.get("/items", status_code = 200)
+@app.get("/items", status_code=200)
 def get_items():
     all_items = services.get_items(db)
     return all_items
 
-@app.get("/users_summary", status_code = 200)
+@app.get("/users_summary", status_code=200)
 def display_all_users():
     all_names = services.get_summary(db) 
     return all_names
 
-@app.get("/display_users", status_code = 200)
+@app.get("/display_users", status_code=200)
 def display_all_users():
     all_names = services.get_summary(db) 
     return all_names
+
+@app.get("/{username}", status_code=200)
+def display_specific_user(username):
+    user_infos = services.get_user_infos(db, username)
+    return user_infos
 
 
 #-------------POST PART-------------#

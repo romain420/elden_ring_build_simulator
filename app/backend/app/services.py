@@ -7,7 +7,7 @@ from datetime import datetime
 
 
 #--------------------------user methods--------------------------#
-def get_user(db: Session):
+def get_users(db: Session):
     all_users = db.query(models.User).all()
     return all_users
 
@@ -29,9 +29,15 @@ def get_summary(db:Session):
         result += all_last_name[index][0] + " " + all_first_name[index][0] + " " + all_last_visit[index][0].strftime("%H:%M:%S")
     return result
 
+def get_user_infos(db:Session, username:str):
+    user = db.query(models.User).filter(models.User.username == username).first()
+    if not user:
+        return "This user does not exist"
+    to_return = "This user exists:    username: " + user.username + "    First name: " + user.First_name + "     Last name: " + user.Last_name
+    return to_return
 
 # create the activity in call in the 'main.py' to post the activity
-def create_user(db: Session, post: schemas.User) -> models.User:#TODO add condition to check if email adress is already use
+def create_user(db: Session, post: schemas.User) -> models.User:#TODO add condition to check if email adress or username is already use
     record = db.query(models.User).filter(models.User.id == post.id).first()
     if record:
         raise HTTPException(status_code=409, detail= f"This user already exists")
