@@ -9,6 +9,7 @@ from typing_extensions import Annotated
 #schema class User
 class User(BaseModel):
     id : Annotated[str, Field(default_factory=lambda: uuid4().hex)]#str
+    username :          str
     First_name :        str
     Last_name :         str
     date_of_birth :     datetime
