@@ -89,6 +89,7 @@ def kill_user_info(db:Session, update:schemas.User):#TODO find a more complient 
     #     # list_record.append(record.i) #= "none"
     record.First_name = "none"
     record.Last_name = "none"
+    record.username = "none"
     record.date_of_birth = datetime(1, 1, 1, 0, 0)
     record.email = "none"
     record.password = "none"
