@@ -28,15 +28,16 @@ class User(BaseModel):
 class User_build(BaseModel):
     # __tablename__ = "user_builds"
 
-    id :            Annotated[str, Field(default_factory=lambda: uuid4().hex)]#str
-    name :          str
-    owner :         User
-    created_at :    datetime
-    last_visit :    datetime
-    last_update :   datetime
-    nb_visits :     int
-    items :         list
-    nb_items :      int
+    id :                Annotated[str, Field(default_factory=lambda: uuid4().hex)]
+    name :              str
+    created_at :        datetime
+    last_visit :        datetime
+    last_update :       datetime
+    nb_visits :         int
+    nb_items :          int
+    items_id :          list
+    owner_username :    str
+
 
     class Config:
         orm_mode = True
