@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { YourWeapon } from "./pages/YourWeapon";
 import { ErrorPage } from "./pages/ErrorPage";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 export default function App() {
   return (

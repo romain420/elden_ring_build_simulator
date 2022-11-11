@@ -3,7 +3,7 @@ import axios from "axios";
 import { NavBar } from '../components/NavBar';
 import { useParams } from 'react-router-dom';
 import { firstRequest } from '../services/eldenRing';
-import { Card } from '../components/YourSpace/Card';
+import { ItemCard } from '../components/YourSpace/ItemCard';
 import './YourSpace.css';
 
 
@@ -41,10 +41,10 @@ export function YourSpace() {
         <div>
             <NavBar navBarLinks={navBarLinks} navBarTitle={navBarTitle}/>
             <div className='your-space-body'>
-                <Card/>
-                <Card/>
-                <Card/>
-                <Card/>
+                <ItemCard/>
+                <ItemCard/>
+                <ItemCard/>
+                <ItemCard/>
             </div> 
             {/* <div className='request'>{itemDatas[0]?.name}</div> */}
             
