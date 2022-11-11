@@ -23,7 +23,7 @@ class User(BaseSQL):
     nb_builds =     Column(Integer, nullable=False)
     builds =        Column(String, nullable=False)        # not sure about this  but Enum of User_build, on ne peut pas mettre de classes custom pour l'instant.
     
-    build = relationship("User_build", back_populates="owner")
+    #build = relationship("User_build", back_populates="owner")
 
 #table user_build
 class User_build(BaseSQL):
@@ -36,10 +36,10 @@ class User_build(BaseSQL):
     last_update =       Column(DateTime, nullable = False)        # devrait-on sauvegarder les précédentes versions des builds ? ou useless ?
     nb_visits =         Column(Integer, nullable = False)
     nb_items =          Column(Integer, nullable = False) 
-    items_id =          Column(String, nullable=False)    # pareil jsuis pas sur mais surement un Enum of Item, peut pas mettre de classe custom pour l'instant
+    items_id =          Column(String, nullable=False)
     owner_username =    Column(String, ForeignKey("users.username"))
     
-    owner = relationship("User", back_populates="build")
+    #owner = relationship("User", back_populates="build")
     #item = relationship("Item", back_populates="stuff")
 
 #table item

@@ -11,7 +11,7 @@ def get_users(db: Session):
     all_users = db.query(models.User).all()
     return all_users
 
-def get_user_builds(db: Session):
+def get_all_user_builds(db: Session):
     all_user_builds = db.query(models.User_build).all()
     return all_user_builds
 
@@ -36,8 +36,18 @@ def get_user_infos(db:Session, username:str):
     to_return = "This user exists:    username: " + user.username + "    First name: " + user.First_name + "     Last name: " + user.Last_name
     return to_return
 
+def get_user_builds(db:Session, username:str):
+    user = db.query(models.User).filter(models.User.username == username).first()
+    if not user:
+        return "This user does not exist"
+    if user.nb_builds == 0:
+        return "This user does not have any build"
+    to_return = "Here are the builds of the user: " + user.username + "     implement here loop for builds" #TODO
+    return to_return
+
 # create the activity in call in the 'main.py' to post the activity
 def create_user(db: Session, post: schemas.User) -> models.User:#TODO add condition to check if email adress or username is already use
+    print("in create_user")
     record = db.query(models.User).filter(models.User.id == post.id).first()
     if record:
         raise HTTPException(status_code=409, detail= f"This user already exists")

@@ -46,34 +46,75 @@ def get_date():
 
 #-------------GET PART-------------#
 @app.get("/users", status_code=200)
-def get_all_users():
+async def get_all_users():
     all_users = services.get_users(db)
     return all_users
 
 @app.get("/user_builds", status_code=200)
-def get_all_user_builds():
-    all_user_builds = services.get_user_builds(db)
+async def get_all_user_builds():
+    all_user_builds = services.get_all_user_builds(db)
     return all_user_builds
 
 @app.get("/items", status_code=200)
-def get_items():
+async def get_items():
     all_items = services.get_items(db)
     return all_items
 
 @app.get("/users_summary", status_code=200)
-def display_all_users():
+async def display_all_users():
     all_names = services.get_summary(db) 
     return all_names
 
 @app.get("/display_users", status_code=200)
-def display_all_users():
+async def display_all_users():
     all_names = services.get_summary(db) 
     return all_names
 
+@app.get("/test", status_code=200)
+async def one_each():
+    user = schemas.User(id="65e6215d-b5c6-4536-987c-f30f3678f710",
+                        username="to_grt",
+                        First_name="to_grt",
+                        Last_name="to_grt",
+                        date_of_birth="2022-11-11T22:17:05.260Z",
+                        email="to_grt",
+                        password="to_grt",
+                        created_at="2022-11-11T22:17:05.260Z",
+                        last_visit="2022-11-11T22:17:05.260Z",
+                        nb_builds=0,
+                        builds=[])
+    item = schemas.Item(id="65e6215d-b5c6-4536-987c-f30f3678f730",
+                        name="item1",
+                        image="item1",
+                        description="item1",
+                        category="item1",
+                        dmg_negation=[],
+                        resistance=[],
+                        weight=10)
+    user_build = schemas.User_build(id="65e6215d-b5c6-4536-987c-f30f3678f720",
+                        name="build1",
+                        image="b",
+                        created_at="2022-11-11T22:17:05.260Z",
+                        last_visit="2022-11-11T22:17:05.260Z",
+                        last_update="2022-11-11T22:17:05.260Z",
+                        nb_visits=0,
+                        nb_items=0,
+                        items_id=[],
+                        owner_username="to_grt")
+    print("all created")
+    services.create_user(db, user)
+    services.create_item(db, item)
+    services.create_user_build(db, user_build)
+
 @app.get("/{username}", status_code=200)
-def display_specific_user(username):
+async def display_specific_user(username):
     user_infos = services.get_user_infos(db, username)
     return user_infos
+
+@app.get("/{username}/builds", status_code=200)
+async def display_user_builds(username):
+    user_builds = services.get_user_builds(db, username)
+    return user_builds
 
 #-------------POST PART-------------#
 @app.post("/user")
