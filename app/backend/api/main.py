@@ -75,6 +75,10 @@ def display_specific_user(username):
     user_infos = services.get_user_infos(db, username)
     return user_infos
 
+@app.get("test", status_code=200)
+def test():
+    return "test"
+
 
 #-------------POST PART-------------#
 @app.post("/user")
