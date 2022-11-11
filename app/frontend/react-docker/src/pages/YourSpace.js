@@ -3,6 +3,7 @@ import axios from "axios";
 import { NavBar } from '../components/NavBar';
 import { useParams } from 'react-router-dom';
 import { firstRequest } from '../services/eldenRing';
+import { Card } from '../components/YourSpace/Card';
 import './YourSpace.css';
 
 
@@ -14,6 +15,7 @@ const navBarLinks = [
     {url:"/weapon", title:"Weapon"}
 ];
 
+// premier lien de call api utilisé
 const baseURL = "https://eldenring.fanapis.com/api/items?limit=2"
 
 export function YourSpace() {
@@ -26,6 +28,7 @@ export function YourSpace() {
             setItemleDatas(res.data);
         })
     }, []);
+    console.log(itemDatas[0]?.image)
     // React.useEffect(() => {
     //     axios.get(baseURL).then((response) => {
     //         setItemleDatas(response.data);
@@ -37,8 +40,15 @@ export function YourSpace() {
     return (
         <div>
             <NavBar navBarLinks={navBarLinks} navBarTitle={navBarTitle}/>
-            <div className='welcome'>bienveue dans ton espace {username}</div> 
-            <div className='request'>{itemDatas[0]?.name}</div>
+            <div className='your-space-body'>
+                <Card/>
+                <Card/>
+                <Card/>
+                <Card/>
+            </div> 
+            {/* <div className='request'>{itemDatas[0]?.name}</div> */}
+            
+
         </div>
        
     )
