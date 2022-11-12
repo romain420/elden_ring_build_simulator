@@ -1,6 +1,7 @@
 from sqlite3 import Date
-from sqlalchemy import Column, String, DateTime, Float, Integer, Enum, ForeignKey
+from sqlalchemy import Column, String, DateTime, Integer, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.schema import Identity
 from database import BaseSQL
 from sqlalchemy.orm import relationship
 
@@ -11,7 +12,7 @@ from sqlalchemy.orm import relationship
 class User(BaseSQL):
     __tablename__ = "users"
 
-    id =            Column(UUID(as_uuid=True), primary_key=True, index=True)#Column(String, primary_key=True, index=True)
+    id =            Column(Integer, primary_key=True) #autoincrement
     username =      Column(String, nullable=False, unique=True)
     First_name =    Column(String, nullable=False)
     Last_name =     Column(String, nullable=False)
@@ -29,7 +30,7 @@ class User(BaseSQL):
 class User_build(BaseSQL):
     __tablename__ = "user_builds"
 
-    id =                Column(UUID(as_uuid=True), primary_key=True, index=True)#Column(String, primary_key=True, index=True)
+    id =                Column(Integer, primary_key=True) #autoincrement
     name =              Column(String, nullable = False)          # a changer plus tard, pas sur de savoir comment ajouter une classe custom
     created_at =        Column(DateTime, nullable = False)
     last_visit =        Column(DateTime, nullable = False)
@@ -46,8 +47,8 @@ class User_build(BaseSQL):
 class Item(BaseSQL):
     __tablename__ = "items"
 
-    id =            Column(UUID(as_uuid=True), primary_key=True, index=True)#Column(String, primary_key=True, index=True)
-    name =          Column(String, nullable = False)
+    id =            Column(Integer, primary_key=True) #autoincrement
+    name =          Column(String, nullable = False, unique=True)
     image =         Column(String, nullable = False)
     description =   Column(String, nullable = False)
     category =      Column(String, nullable = False)

@@ -8,7 +8,6 @@ from typing_extensions import Annotated
 
 #schema class User
 class User(BaseModel):
-    id : Annotated[str, Field(default_factory=lambda: uuid4().hex)]#str
     username :          str
     First_name :        str
     Last_name :         str
@@ -26,9 +25,7 @@ class User(BaseModel):
 
 #schema class User_build
 class User_build(BaseModel):
-    # __tablename__ = "user_builds"
 
-    id :                Annotated[str, Field(default_factory=lambda: uuid4().hex)]
     name :              str
     created_at :        datetime
     last_visit :        datetime
@@ -46,7 +43,6 @@ class User_build(BaseModel):
 #schema class Item
 class Item(BaseModel):
 
-    id :            Annotated[str, Field(default_factory=lambda: uuid4().hex)]#str
     name :          str
     image :         str
     description :   str
