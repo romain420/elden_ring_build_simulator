@@ -162,6 +162,11 @@ async def one_each():
     print("user_build posted")
     print("all posted")
 
+@app.post("/delete_user_post")
+async def delete_user(username:str):
+    removed_user = services.delete_user(db, username)
+    return removed_user
+
 #-------------PUT PART-------------#
 @app.put("/user_last_visit")#TODO don't forget to change the name by 'update_user_info'
 async def update_last_visit(user:schemas.User):
@@ -173,15 +178,19 @@ async def delete_user(username:str):
     removed_user = services.kill_user_info(db, username)
     return removed_user
 
-@app.post("/delete_user")
-async def delete_user(username:str):
-    removed_user = services.delete_user(db, username)
-    return removed_user
-
 #-------------DELETE PART-------------#
 @app.delete("/delete_user")
 async def delete_user(username:str):
     removed_user = services.delete_user(db, username)
     return removed_user
 
+@app.delete("/delete_item")
+async def delete_item(name:str):
+    removed_item = services.delete_item(db, name)
+    return removed_item
+
+@app.delete("/delete_user_build")
+async def delete_user(id:int):
+    removed_user_build = services.delete_user_build(db, id)
+    return removed_user_build
 #-----------------------------------------------------------------#

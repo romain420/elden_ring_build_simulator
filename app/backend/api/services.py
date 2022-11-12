@@ -8,6 +8,8 @@ from datetime import datetime
 
 
 #--------------------------user methods--------------------------#
+
+#---------------------GET PART---------------------#
 def get_users(db: Session):
     all_users = db.query(models.User).all()
     return all_users
@@ -46,7 +48,7 @@ def get_user_builds(db:Session, username:str):
     to_return = "Here are the builds of the user: " + user.username + "     implement here loop for builds" #TODO
     return to_return
 
-# create the activity in call in the 'main.py' to post the activity
+#---------------------CREATION PART---------------------#
 def create_user(db: Session, post: schemas.User) -> models.User:#TODO add condition to check if email adress or username is already use
     record = db.execute(select(models.User).where(models.User.username == post.username)).first()
     if record:
@@ -58,6 +60,11 @@ def create_user(db: Session, post: schemas.User) -> models.User:#TODO add condit
 
 def create_user_build(db: Session, post: schemas.User_build) -> models.User_build:
     user_build = models.User_build(**post.dict())
+    owner_username = user_build.owner_username
+    user = db.query(models.User).filter(models.User.username == owner_username).first()
+    if not user:
+        return "This user does not exist"
+    user.nb_builds += 1
     db.add(user_build)
     db.commit()
     return user_build
@@ -71,6 +78,7 @@ def create_item(db: Session, post: schemas.Item) -> models.Item:
     db.commit()
     return item
 
+#---------------------UPDATE PART---------------------#
 #update fields in table User
 def update_user_info(db:Session, update:schemas.User):#TODO try to update 1 field for the moment after that let's update 1 or more field at the same time
     record = db.query(models.User).filter(models.User.id == update.id).first()
@@ -83,6 +91,7 @@ def update_user_info(db:Session, update:schemas.User):#TODO try to update 1 fiel
     return f"{update.First_name} {update.Last_name} as log in {update.last_visit}"
 #models.User.last_visit == update.last_visit
 
+#---------------------DELETE PART---------------------#
 #this methode is suppose to remove all user info exept 'id' if user decide to remove his account
 def kill_user_info(db:Session, username:str):#TODO find a more complient way to smash the data (for loop or something)
     record = db.query(models.User).filter(models.User.username == username).first()
@@ -114,6 +123,19 @@ def delete_user(db:Session, username:str):
     db.delete(record)
     db.commit()
     
+def delete_item(db:Session, name:str):
+    record = db.query(models.Item).filter(models.Item.name == name).first()
+    if not record:
+        raise HTTPException(status_code=404, detail= f"Item {name} doesn't exist. We can't delete it.")
+    db.delete(record)
+    db.commit()
+
+def delete_user_build(db:Session, id:int):
+    record = db.query(models.User_build).filter(models.User_build.id == id).first()
+    if not record:
+        raise HTTPException(status_code=404, detail= f"User_build {id} doesn't exist. We can't delete it.")
+    db.delete(record)
+    db.commit()
 
     
 #********this methode is not alwode because we can not remove a masterdata from db********#
