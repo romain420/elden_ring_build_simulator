@@ -34,9 +34,10 @@ def get_summary(db:Session):
 
 def get_user_infos(db:Session, username:str):
     user = db.query(models.User).filter(models.User.username == username).first()
+    update_last_visit(db, user.username)
     if not user:
         return "This user does not exist"
-    to_return = "This user exists:    username: " + user.username + "    First name: " + user.First_name + "     Last name: " + user.Last_name
+    to_return = "This user exists:    username: " + user.username + "    First name: " + user.First_name + "     Last name: " + user.Last_name + "     nb_builds: " + str(user.nb_builds) + "      last_visit: " + str(user.last_visit)
     return to_return
 
 def get_user_builds(db:Session, username:str):
@@ -50,9 +51,12 @@ def get_user_builds(db:Session, username:str):
 
 #---------------------CREATION PART---------------------#
 def create_user(db: Session, post: schemas.User) -> models.User:#TODO add condition to check if email adress or username is already use
-    record = db.execute(select(models.User).where(models.User.username == post.username)).first()
-    if record:
+    check_username = db.execute(select(models.User).where(models.User.username == post.username)).first()
+    if check_username:
         raise HTTPException(status_code=409, detail= f"This username already exists, please choose another one")
+    check_email = db.execute(select(models.User).where(models.User.email == post.email)).first()
+    if check_email:
+        raise HTTPException(status_code=409, detail= f"This email already exists, please choose another one")
     user = models.User(**post.dict())
     db.add(user)
     db.commit()
@@ -90,6 +94,13 @@ def update_user_info(db:Session, update:schemas.User):#TODO try to update 1 fiel
     
     return f"{update.First_name} {update.Last_name} as log in {update.last_visit}"
 #models.User.last_visit == update.last_visit
+
+def update_last_visit(db:Session, username:str):
+    user = db.query(models.User).filter(models.User.username == username).first()
+    if not user:
+        raise HTTPException(status_code=404, detail= f"This user doesn't exist. We can't update it.")
+    user.last_visit = datetime.today()
+    db.commit()
 
 #---------------------DELETE PART---------------------#
 #this methode is suppose to remove all user info exept 'id' if user decide to remove his account

@@ -12,7 +12,7 @@ from sqlalchemy.orm import relationship
 class User(BaseSQL):
     __tablename__ = "users"
 
-    id =            Column(Integer, primary_key=True) #autoincrement
+    id =            Column(Integer, primary_key=True) #auto-increment
     username =      Column(String, nullable=False, unique=True)
     First_name =    Column(String, nullable=False)
     Last_name =     Column(String, nullable=False)
@@ -30,7 +30,7 @@ class User(BaseSQL):
 class User_build(BaseSQL):
     __tablename__ = "user_builds"
 
-    id =                Column(Integer, primary_key=True) #autoincrement
+    id =                Column(Integer, primary_key=True) #auto-increment
     name =              Column(String, nullable = False)          # a changer plus tard, pas sur de savoir comment ajouter une classe custom
     created_at =        Column(DateTime, nullable = False)
     last_visit =        Column(DateTime, nullable = False)
@@ -47,7 +47,7 @@ class User_build(BaseSQL):
 class Item(BaseSQL):
     __tablename__ = "items"
 
-    id =            Column(Integer, primary_key=True) #autoincrement
+    id =            Column(Integer, primary_key=True) #auto-increment
     name =          Column(String, nullable = False, unique=True)
     image =         Column(String, nullable = False)
     description =   Column(String, nullable = False)
