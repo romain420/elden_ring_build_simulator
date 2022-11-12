@@ -20,3 +20,9 @@
 .picture-card{
     background-color: green;
 }
+
+.card{
+    background-color: aquamarine!important;
+    display: flex!important;
+    flex-flow: row!important;
+}
