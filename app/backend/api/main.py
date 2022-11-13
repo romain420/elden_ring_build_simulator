@@ -140,7 +140,25 @@ async def one_each():
                         dmg_negation=[],
                         resistance=[],
                         weight=10)                                                
-    user_build = schemas.User_build(name="build1",
+    user_build1 = schemas.User_build(name="build1",
+                                    image="b",
+                                    created_at="2022-11-11T22:17:05.260Z",
+                                    last_visit="2022-11-11T22:17:05.260Z",
+                                    last_update="2022-11-11T22:17:05.260Z",
+                                    nb_visits=0,
+                                    nb_items=0,
+                                    items_id=[],
+                                    owner_username="to_grt")
+    user_build2 = schemas.User_build(name="build2",
+                                    image="b",
+                                    created_at="2022-11-11T22:17:05.260Z",
+                                    last_visit="2022-11-11T22:17:05.260Z",
+                                    last_update="2022-11-11T22:17:05.260Z",
+                                    nb_visits=0,
+                                    nb_items=0,
+                                    items_id=[],
+                                    owner_username="to_grt")
+    user_build3 = schemas.User_build(name="build3",
                                     image="b",
                                     created_at="2022-11-11T22:17:05.260Z",
                                     last_visit="2022-11-11T22:17:05.260Z",
@@ -158,7 +176,9 @@ async def one_each():
     services.create_user(db, user2)
     services.create_user(db, user3)
     print("user posted")
-    services.create_user_build(db, user_build)
+    services.create_user_build(db, user_build1)
+    services.create_user_build(db, user_build2)
+    services.create_user_build(db, user_build3)
     print("user_build posted")
     print("all posted")
 
@@ -192,5 +212,10 @@ async def delete_item(name:str):
 @app.delete("/delete_user_build")
 async def delete_user(id:int):
     removed_user_build = services.delete_user_build(db, id)
+    return removed_user_build
+
+@app.delete("/delete_user_build_from_username")
+async def delete_user_build_from_username(username:str, build_name:str):
+    removed_user_build = services.delete_user_build_from_username(db, username, build_name)
     return removed_user_build
 #-----------------------------------------------------------------#

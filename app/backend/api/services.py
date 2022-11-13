@@ -72,7 +72,7 @@ def create_user_build(db: Session, post: schemas.User_build) -> models.User_buil
     print(owner_username)
     user = db.query(models.User).filter(models.User.username == owner_username).first()
     print(user)
-    if user == None:
+    if not user:
         raise HTTPException(status_code=404, detail= f"This user does not exist, cannot create a build for it")
     print("after assertion")
     db.query(models.User).filter(models.User.username == owner_username).update({"builds": models.User.builds + [user_build.name]})
@@ -154,6 +154,16 @@ def delete_user_build(db:Session, id:int):
     if not record:
         raise HTTPException(status_code=404, detail= f"User_build {id} doesn't exist. We can't delete it.")
     db.delete(record)
+    db.commit()
+
+def delete_user_build_from_username(db:Session, username:str, build_name:str):
+    user = db.query(models.User).filter(models.User.username == username).first()
+    if not user:
+        raise HTTPException(status_code=404, detail= f"This user:" + username + " doesn't exist.")
+    user_build = db.query(models.User_build).filter(models.User_build.name == build_name).first()
+    if not user_build:
+        raise HTTPException(status_code=404, detail= f"This user:" + username + " or this build:" + build_name + " doesn't exist. We can't delete it.")
+    db.delete(user_build)
     db.commit()
 
     
