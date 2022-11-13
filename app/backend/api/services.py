@@ -34,10 +34,10 @@ def get_summary(db:Session):
 
 def get_user_infos(db:Session, username:str):
     user = db.query(models.User).filter(models.User.username == username).first()
-    update_last_visit(db, user.username)
     if not user:
         return "This user does not exist"
-    to_return = "This user exists:    username: " + user.username + "    First name: " + user.First_name + "     Last name: " + user.Last_name + "     nb_builds: " + str(user.nb_builds) + "      last_visit: " + str(user.last_visit)
+    update_last_visit(db, user.username)
+    to_return = "This user exists:    username: " + user.username + "    First name: " + user.First_name + "     Last name: " + user.Last_name + "     nb_builds: " + str(user.nb_builds) + "      last_visit: " + str(user.last_visit) + "     name of builds: " + ', '.join(user.builds)
     return to_return
 
 def get_user_builds(db:Session, username:str):
@@ -68,6 +68,7 @@ def create_user_build(db: Session, post: schemas.User_build) -> models.User_buil
     user = db.query(models.User).filter(models.User.username == owner_username).first()
     if not user:
         return "This user does not exist"
+    db.query(models.User).filter(models.User.username == owner_username).update({"builds": models.User.builds + [user_build.name]})
     user.nb_builds += 1
     db.add(user_build)
     db.commit()
