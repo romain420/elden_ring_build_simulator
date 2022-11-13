@@ -75,15 +75,15 @@ async def display_user_builds(username):
     return user_builds
 
 #-------------POST PART-------------#
-@app.post("/user")
+@app.post("/user", status_code=200)
 async def post_user(user: schemas.User):
     services.create_user(db, user)
 
-@app.post("/user_build")
+@app.post("/user_build", status_code=200)
 async def post_user_build(user_build: schemas.User_build):
     services.create_user_build(db, user_build)
 
-@app.post("/item")
+@app.post("/item", status_code=200)
 async def post_item(item: schemas.Item):
     services.create_item(db, item)
 

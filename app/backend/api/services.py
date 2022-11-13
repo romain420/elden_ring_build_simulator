@@ -69,9 +69,12 @@ def create_user(db: Session, post: schemas.User) -> models.User:#TODO add condit
 def create_user_build(db: Session, post: schemas.User_build) -> models.User_build:
     user_build = models.User_build(**post.dict())
     owner_username = user_build.owner_username
+    print(owner_username)
     user = db.query(models.User).filter(models.User.username == owner_username).first()
-    if not user:
-        return "This user does not exist"
+    print(user)
+    if user == None:
+        raise HTTPException(status_code=404, detail= f"This user does not exist, cannot create a build for it")
+    print("after assertion")
     db.query(models.User).filter(models.User.username == owner_username).update({"builds": models.User.builds + [user_build.name]})
     user.nb_builds += 1
     db.add(user_build)
