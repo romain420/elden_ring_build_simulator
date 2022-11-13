@@ -46,7 +46,11 @@ def get_user_builds(db:Session, username:str):
         return "This user does not exist"
     if user.nb_builds == 0:
         return "This user does not have any build"
-    to_return = "Here are the builds of the user: " + user.username + "     implement here loop for builds" #TODO
+    to_return = "Here are the builds of the user: " + user.username + "     implement here loop for builds"
+    for build in user.builds:
+        user_build = db.query(models.User_build).filter(models.User_build.name == build and models.User_build.owner_username == username).first()
+        to_return += "    " + build + " contains: " + user_build.items_id
+        print(build)
     return to_return
 
 #---------------------CREATION PART---------------------#
