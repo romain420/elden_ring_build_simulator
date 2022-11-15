@@ -5,6 +5,7 @@ from sqlalchemy.schema import Identity
 from database import BaseSQL
 from sqlalchemy.orm import relationship
 from sqlalchemy.types import ARRAY
+from MutableList import MutableList
 
 
 #Creation de toute les tables de la db
@@ -23,7 +24,8 @@ class User(BaseSQL):
     created_at =    Column(DateTime, nullable=False)
     last_visit =    Column(DateTime, nullable=False)
     nb_builds =     Column(Integer, nullable=False)
-    builds =        Column(ARRAY(String), nullable=False)        # not sure about this  but Enum of User_build, on ne peut pas mettre de classes custom pour l'instant.
+    builds =        Column(MutableList.as_mutable(ARRAY(String)), nullable=False)       # Les updates de liste python n'envoie pas d'update lors de la modification, nous transformons donc notre ARRAY en mutable 
+                                                                                        # personnalisée qui renverrat des updates lors des changements. Voir MutableList.py pour la structure de la classe. 
     
     #build = relationship("User_build", back_populates="owner")
 

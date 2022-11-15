@@ -46,9 +46,12 @@ def get_user_builds(db:Session, username:str):
         return "This user does not exist"
     if user.nb_builds == 0:
         return "This user does not have any build"
-    to_return = "Here are the builds of the user: " + user.username + "     implement here loop for builds"
+    to_return = "Here are the builds of the user: " + user.username + ":"
     for build in user.builds:
-        user_build = db.query(models.User_build).filter(models.User_build.name == build and models.User_build.owner_username == username).first()
+        print(build)
+        buildddd = db.query(models.User_build).filter(models.User_build.name == build).all()
+        print(buildddd)
+        user_build = db.query(models.User_build).filter(models.User_build.name == build, models.User_build.owner_username == username).first()
         to_return += "    " + build + " contains: " + user_build.items_id
         print(build)
     return to_return
@@ -150,19 +153,25 @@ def delete_item(db:Session, name:str):
     db.commit()
 
 def delete_user_build(db:Session, id:int):
-    record = db.query(models.User_build).filter(models.User_build.id == id).first()
-    if not record:
+    build = db.query(models.User_build).filter(models.User_build.id == id).first()
+    if not build:
         raise HTTPException(status_code=404, detail= f"User_build {id} doesn't exist. We can't delete it.")
-    db.delete(record)
+    owner = db.query(models.User).filter(models.User.username == build.owner_username).first()
+    if not owner:
+        raise HTTPException(status_code=404, detail= f"User_build {id} doesn't have an owner, this shouldn't be possible. We can't delete it.")
+    owner.nb_builds -= 1
+    db.delete(build)
     db.commit()
 
 def delete_user_build_from_username(db:Session, username:str, build_name:str):
     user = db.query(models.User).filter(models.User.username == username).first()
     if not user:
         raise HTTPException(status_code=404, detail= f"This user:" + username + " doesn't exist.")
-    user_build = db.query(models.User_build).filter(models.User_build.name == build_name).first()
+    user_build = db.query(models.User_build).filter(models.User_build.name == build_name, models.User_build.owner_username == user.username).first()
     if not user_build:
-        raise HTTPException(status_code=404, detail= f"This user:" + username + " or this build:" + build_name + " doesn't exist. We can't delete it.")
+        raise HTTPException(status_code=404, detail= f"This build: " + build_name + " for the user:" + username + " doesn't exist. We can't delete it.")
+    user.nb_builds -= 1
+    user.builds.remove(user_build.name)
     db.delete(user_build)
     db.commit()
 
