@@ -48,12 +48,8 @@ def get_user_builds(db:Session, username:str):
         return "This user does not have any build"
     to_return = "Here are the builds of the user: " + user.username + ":"
     for build in user.builds:
-        print(build)
-        buildddd = db.query(models.User_build).filter(models.User_build.name == build).all()
-        print(buildddd)
         user_build = db.query(models.User_build).filter(models.User_build.name == build, models.User_build.owner_username == username).first()
         to_return += "    " + build + " contains: " + user_build.items_id
-        print(build)
     return to_return
 
 #---------------------CREATION PART---------------------#
@@ -72,12 +68,9 @@ def create_user(db: Session, post: schemas.User) -> models.User:#TODO add condit
 def create_user_build(db: Session, post: schemas.User_build) -> models.User_build:
     user_build = models.User_build(**post.dict())
     owner_username = user_build.owner_username
-    print(owner_username)
     user = db.query(models.User).filter(models.User.username == owner_username).first()
-    print(user)
     if not user:
         raise HTTPException(status_code=404, detail= f"This user does not exist, cannot create a build for it")
-    print("after assertion")
     db.query(models.User).filter(models.User.username == owner_username).update({"builds": models.User.builds + [user_build.name]})
     user.nb_builds += 1
     db.add(user_build)
@@ -138,12 +131,22 @@ def kill_user_info(db:Session, username:str):#TODO find a more complient way to 
     db.commit()
     return "This user have been succesfully deleted"#f"this is the record list {list_record}"#
 
-def delete_user(db:Session, username:str):
-    record = db.query(models.User).filter(models.User.username == username).first()
-    if not record:
+def force_delete_user(db:Session, username:str):    #Don't ever use that, except for debugging or test purposes
+    user = db.query(models.User).filter(models.User.username == username).first()
+    if not user:
         raise HTTPException(status_code=404, detail= f"User {username} doesn't exist. We can't delete it.")
-    db.delete(record)
+    db.delete(user)
     db.commit()
+    return "user has been force deleted with success, be careful and look out for orphan user_builds"
+
+def delete_user(db:Session, username:str):
+    user = db.query(models.User).filter(models.User.username == username).first()
+    if not user:
+        raise HTTPException(status_code=404, detail= f"User {username} doesn't exist. We can't delete it.")
+    db.query(models.User_build).filter(models.User_build.owner_username == username).delete()
+    db.delete(user)
+    db.commit()
+    return "user deleted with success"
     
 def delete_item(db:Session, name:str):
     record = db.query(models.Item).filter(models.Item.name == name).first()
@@ -151,6 +154,7 @@ def delete_item(db:Session, name:str):
         raise HTTPException(status_code=404, detail= f"Item {name} doesn't exist. We can't delete it.")
     db.delete(record)
     db.commit()
+    return "item deleted with success, this should not happen, be careful for user_builds with missing items"
 
 def delete_user_build(db:Session, id:int):
     build = db.query(models.User_build).filter(models.User_build.id == id).first()
@@ -162,6 +166,7 @@ def delete_user_build(db:Session, id:int):
     owner.nb_builds -= 1
     db.delete(build)
     db.commit()
+    return "user_build deleted with success"
 
 def delete_user_build_from_username(db:Session, username:str, build_name:str):
     user = db.query(models.User).filter(models.User.username == username).first()
@@ -174,6 +179,14 @@ def delete_user_build_from_username(db:Session, username:str, build_name:str):
     user.builds.remove(user_build.name)
     db.delete(user_build)
     db.commit()
+    return "user_build deleted with success"
+
+def clear_data(db:Session): # /!\ Clear all the tables, be careful
+    db.query(models.User_build).delete()
+    db.query(models.Item).delete()
+    db.query(models.User).delete()
+    db.commit()
+    return "all tables has been clear"
 
     
 #********this methode is not alwode because we can not remove a masterdata from db********#
