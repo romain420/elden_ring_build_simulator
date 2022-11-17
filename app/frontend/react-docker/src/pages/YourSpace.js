@@ -1,10 +1,11 @@
 import React from 'react'
 import axios from "axios";
+import Col from 'react-bootstrap/Col';
 import { NavBar } from '../components/NavBar';
 import { useParams } from 'react-router-dom';
 import { firstRequest } from '../services/eldenRing';
+import { getUsers } from '../services/userApi';
 import { ItemCard } from '../components/YourSpace/ItemCard';
-import Col from 'react-bootstrap/Col';
 import './YourSpace.css';
 
 
@@ -18,12 +19,15 @@ const navBarLinks = [
 
 // premier lien de call api utilisé
 const baseURL = "https://eldenring.fanapis.com/api/items?limit=4"
+const getUsersURL = "http://localhost:5000/users"
 
 export function YourSpace() {
     let { username } = useParams();
     const navBarTitle = "Your space";
     let [itemDatas, setItemleDatas] = React.useState([]);
+    let [userDatas, setUserDatas] = React.useState([]);
 
+    //**********item api**********//
     React.useEffect(() => {
         firstRequest(baseURL).then(res => {
             setItemleDatas(res.data);
@@ -35,6 +39,16 @@ export function YourSpace() {
     //         setItemleDatas(response.data);
     //     });
     // }, []);
+    //***************************//
+
+    //**********user api**********//
+    React.useEffect(() => {
+        getUsers(getUsersURL).then(res => {
+            setUserDatas(res.data);
+        })
+    }, []);
+    console.log("This is users datas: ", userDatas)
+    //***************************//
 
     console.log("this itemdata :",itemDatas)
 
@@ -42,6 +56,7 @@ export function YourSpace() {
         <div>
             <NavBar navBarLinks={navBarLinks} navBarTitle={navBarTitle}/>
             <div className='your-space-body'>
+                <p>{}</p>
                 <Col>
                     <ItemCard ItemName={itemDatas[0]?.name} 
                             ItemImg={itemDatas[0]?.image} 

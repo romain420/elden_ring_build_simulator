@@ -1,5 +1,5 @@
 .card{
-    background-color: aqua;
+    background-color: #535154;
     color: #000000; 
     width: 50%;
     height: 15%;
@@ -22,7 +22,7 @@
 }
 
 .card{
-    background-color: aquamarine!important;
+    background-color: #535154!important;
     display: flex!important;
     flex-flow: row!important;
 }
