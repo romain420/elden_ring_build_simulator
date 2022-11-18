@@ -3,6 +3,7 @@ import { Home } from "./pages/Home";
 import { YourSpace } from "./pages/YourSpace";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { YourWeapon } from "./pages/YourWeapon";
+import { LoginPage } from "./pages/LoginPage";
 import { ErrorPage } from "./pages/ErrorPage";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="/" element={<Home/>} />
         <Route path="/build_space" element={<YourSpace/>} />
         <Route path="/weapon" element={<YourWeapon/>} />
+        <Route path="/signin" element={<LoginPage/>} />
         <Route path="*" element={<ErrorPage/>} />
       </Routes>
     </Router>

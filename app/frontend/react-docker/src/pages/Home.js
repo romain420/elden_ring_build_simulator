@@ -4,7 +4,6 @@ import { Slider } from '../components/Slider.js';
 import { NavBar } from '../components/NavBar.js';
 
 const navBarLinks = [
-    {url:"/login", title:"LogIn"},
     {url:"/signin", title:"SignIn"},
     {url:"/build_space", title:"Build"},
     {url:"/weapon", title:"Weapon"}

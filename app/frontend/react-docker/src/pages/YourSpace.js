@@ -56,7 +56,7 @@ export function YourSpace() {
         <div>
             <NavBar navBarLinks={navBarLinks} navBarTitle={navBarTitle}/>
             <div className='your-space-body'>
-                <p>{}</p>
+                <p>{userDatas[0]?.username}</p>
                 <Col>
                     <ItemCard ItemName={itemDatas[0]?.name} 
                             ItemImg={itemDatas[0]?.image} 
