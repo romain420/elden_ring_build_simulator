@@ -11,12 +11,19 @@ export async function getUsers(url) {
 
 
 //-------------------POST REQUEST-------------------//
-// export async function postNewUser(url, data) {
-//     const userData = JSON.stringify(data);
-//     const result = await axios.post(url, userData);
-
-//     alert(result.data.headers['Content-Type']);
-// }
+export async function postNewUser(url, data) {
+    const userData = JSON.parse(JSON.stringify(data));
+    console.log("this is userData :",userData)
+    const type = "";
+    const message = "";
+    const result = await axios.post(url, data)
+        .then(function (response) {
+            alert("Your account has been successfully registered !")
+        })
+        .catch(function (error) {
+            alert("⚠ Error : Your 'User Name' or 'Email' is already use");
+        });
+}
 //--------------------------------------------------//
 
 // const data_response = {
