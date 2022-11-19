@@ -57,14 +57,16 @@ def get_user_builds(db:Session, username:str):
     return to_return
 
 #---------------------CREATION PART---------------------#
-def create_user(db: Session, post: schemas.User) -> models.User:#TODO add condition to check if email adress or username is already use
+def create_user(db: Session, post: schemas.User) -> models.User:
     check_username = db.execute(select(models.User).where(models.User.username == post.username)).first()
     if check_username:
         raise HTTPException(status_code=409, detail= f"This username already exists, please choose another one")
     check_email = db.execute(select(models.User).where(models.User.email == post.email)).first()
     if check_email:
         raise HTTPException(status_code=409, detail= f"This email already exists, please choose another one")
-    user = models.User(**post.dict())
+    mandatory_dict = {'created_at': datetime.today(), 'last_visit': datetime.today(), 'nb_builds': 0, 'builds': []}
+    final_dict = {**post.dict(), **mandatory_dict}
+    user = models.User(**final_dict)
     db.add(user)
     db.commit()
     return user

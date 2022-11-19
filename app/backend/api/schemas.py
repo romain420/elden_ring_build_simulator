@@ -11,13 +11,9 @@ class User(BaseModel):
     username :          str
     First_name :        str
     Last_name :         str
-    date_of_birth :     datetime
+    age :               int
     email :             str    
     password:           str
-    created_at :        datetime
-    last_visit :        datetime
-    nb_builds :         int
-    builds :            list
 
     class Config:
         orm_mode = True

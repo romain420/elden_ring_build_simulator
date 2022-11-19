@@ -18,8 +18,8 @@ class User(BaseSQL):
     username =      Column(String, nullable=False, unique=True)
     First_name =    Column(String, nullable=False)
     Last_name =     Column(String, nullable=False)
-    date_of_birth = Column(DateTime, nullable=False)
-    email =         Column(String, nullable=False)#TODO manage the fact that user can't have a the same email as an other one in frontend part
+    age =           Column(Integer, nullable=False)
+    email =         Column(String, nullable=False)
     password  =     Column(String, nullable=False)
     created_at =    Column(DateTime, nullable=False)
     last_visit =    Column(DateTime, nullable=False)
