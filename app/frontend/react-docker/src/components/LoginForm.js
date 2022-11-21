@@ -1,25 +1,46 @@
-import { useState } from "react";
+import React, { useRef } from "react";
+import ReactDOM from "react-dom";
 import { useForm } from "react-hook-form";
-import '../App.css';
+// import {  } from "../services/userApi"
+import "./Form.css"
 
 export function LoginForm() {
-  const { register, handleSubmit } = useForm();
-  const [data, setData] = useState("");
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors },
+        reset
+    } = useForm()
 
-  return (
-    <form className="login-form" onSubmit={handleSubmit((data) => setData(JSON.stringify(data)))}>
-      <input className="login-form-input" {...register("pseudo")} placeholder="Pseudo" />
-      <input className="login-form-input" {...register("firstName")} placeholder="First name" />
-      <input className="login-form-input" {...register("email")} placeholder="Email" />
-      <select className="login-form-input" {...register("gender", { required: true })}>
-        <option value="">Select Gender...</option>
-        <option value="women">Women</option>
-        <option value="man">Man</option>
-        <option value="other">Other</option>
-      </select>
-      <input className="login-form-input" {...register("password")} placeholder="Password" />
-      <input className="login-form-input" {...register("confirmPassword")} placeholder="Confirm Password" />
-      <input className="login-form-button" type="submit" />
-    </form>
-  );
+    const onSubmit = (data) => {
+        alert(JSON.stringify(data))
+    };
+
+    return (
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <label>User Name</label>
+            <input
+                {...register("username",{
+                    required: true,
+                    pattern: /^[A-Za-z0-9._]+$/i
+                })}
+                placeholder = "User Name"
+            />
+            {errors?.username?.type === "required" && <p className="error-message">You should enter an username to connect</p>}
+            {errors?.username?.type === "pattern" && (
+                <p className="error-message">hmmm.. There is something strange here</p>
+            )}
+            <label>Password</label>
+            <input
+                type = "password"
+                {...register("password",{
+                    required: true,
+                })}
+                placeholder = "Password"
+            />
+            {errors?.password?.type === "required" && <p className="error-message">You should enter your password to connect</p>}
+            <button type="submit">Log In</button>
+        </form>
+    );
 }

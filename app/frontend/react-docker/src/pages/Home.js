@@ -5,6 +5,7 @@ import { NavBar } from '../components/NavBar.js';
 
 const navBarLinks = [
     {url:"/signin", title:"SignIn"},
+    {url:"/login", title:"LogIn"},
     {url:"/build_space", title:"Build"},
     {url:"/weapon", title:"Weapon"}
   ];

@@ -3,11 +3,12 @@ form {
     margin: 0 auto;
 }
 
-p {
-    color: #bf1650;
+.error-message {
+    color: #bf1650 !important;
+    font-size: 14px !important;
 }
 
-p::before {
+.error-message::before {
     display: inline;
     content: "⚠ ";
 }
@@ -39,6 +40,8 @@ input[type="submit"] {
     background: #fff9bf;
     color: #000000;
     text-transform: uppercase;
+    width: 100%;
+    border-radius: 4px;
     border: none;
     margin-top: 40px;
     padding: 20px;

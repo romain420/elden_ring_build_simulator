@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import ReactDOM from "react-dom";
 import { useForm } from "react-hook-form";
 import { postNewUser } from "../services/userApi"
-import "./RegisterForm.css"
+import "./Form.css"
 
 export function RegisterForm() {
   const {
@@ -36,10 +36,10 @@ export function RegisterForm() {
       />
       {errors?.First_name?.type === "required" && <p>This field is required</p>}
       {errors?.First_name?.type === "maxLength" && (
-        <p>First name cannot exceed 20 characters</p>
+        <p className="error-message">First name cannot exceed 20 characters</p>
       )}
       {errors?.First_name?.type === "pattern" && (
-        <p>Alphabetical characters only</p>
+        <p className="error-message">Alphabetical characters only</p>
       )}
       <label>Laste Name</label>
       <input 
@@ -47,7 +47,7 @@ export function RegisterForm() {
         placeholder = "Last Name"
       />
       {errors?.Last_name?.type === "pattern" && (
-        <p>Alphabetical characters only</p>
+        <p className="error-message">Alphabetical characters only</p>
       )}
       <label>User Name</label>
       <input
@@ -60,14 +60,14 @@ export function RegisterForm() {
         }
         placeholder = "User Name" 
       /> 
-      {errors?.username?.type === "required" && <p>This field is required</p>}
+      {errors?.username?.type === "required" && <p className="error-message">This field is required</p>}
       {errors?.username?.type === "maxLength" && (
-        <p>User name cannot exceed 20 characters</p>
+        <p className="error-message">User name cannot exceed 20 characters</p>
       )}
       {errors?.username?.type === "pattern" && (
-        <p>Alphabetical characters, Number or . and _ are allowed </p>
+        <p className="error-message">Only Alphabetical characters, Number or . and _ are allowed </p>
       )}
-      <label>Age</label>a
+      <label>Age</label>
       <input 
         type="number" 
         {...register("age", 
@@ -77,12 +77,12 @@ export function RegisterForm() {
         )}
         placeholder = "Age" 
       />
-      {errors?.age?.type === "required" && <p>This field is required</p>}
+      {errors?.age?.type === "required" && <p className="error-message">This field is required</p>}
       {errors?.age?.type === "min" && (
-        <p>You Must be older then 16 years old to access this website</p>
+        <p className="error-message">You Must be older then 16 years old to access this website</p>
       )}
       {errors?.age?.type === "max" && (
-        <p>Hmmm.. the oldest person alive is about 118 years old. Please unter your age again</p>
+        <p className="error-message">Hmmm.. the oldest person alive is about 118 years old. Please unter your age again</p>
       )}
       <label>Email Adress</label>
       <input
@@ -98,10 +98,10 @@ export function RegisterForm() {
         placeholder = "Email"
       />
       {errors?.email?.type === "required" && (
-        <p>This field is required</p>
+        <p className="error-message">This field is required</p>
       )}
       {errors?.email?.type === "pattern" && (
-        <p>
+        <p className="error-message">
           Please enter a correct email adress
         </p>
       )}
@@ -118,7 +118,7 @@ export function RegisterForm() {
         }
         placeholder = "Password"
       />
-      {errors.password && <p>{errors.password.message}</p>}
+      {errors.password && <p className="error-message">{errors.password.message}</p>}
       <label>Confirm Password</label>
       <input
         type="password"
@@ -129,9 +129,9 @@ export function RegisterForm() {
         }
         placeholder = "Corfirm your Password"
       />
-      {errors.comfirmPassword && <p>{errors.comfirmPassword.message}</p>}
+      {errors.comfirmPassword && <p className="error-message">{errors.comfirmPassword.message}</p>}
 
-      <input type="submit" />
+      <button type="submit">Submit Registration</button>
     </form>
   );
 }
