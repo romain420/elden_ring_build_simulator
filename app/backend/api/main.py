@@ -183,20 +183,15 @@ async def one_each():
                                     nb_items=0,
                                     items_id=[],
                                     owner_username="to_grt")
-    print("all created")
     services.create_item(db, item1)
     services.create_item(db, item2)
     services.create_item(db, item3)
-    print("item posted")
     services.create_user(db, user1)
     services.create_user(db, user2)
     services.create_user(db, user3)
-    print("user posted")
     services.create_user_build(db, user_build1)
     services.create_user_build(db, user_build2)
     services.create_user_build(db, user_build3)
-    print("user_build posted")
-    print("all posted")
 
 @app.post("/delete_user_post")
 async def delete_user(username:str):
@@ -215,6 +210,11 @@ async def delete_user(username:str):
     return removed_user
 
 #-------------DELETE PART-------------#
+@app.delete("/force_delete_user")           # Don't ever use this, except for debugging or testing purposes
+async def delete_user(username:str):
+    removed_user = services.force_delete_user(db, username)
+    return removed_user
+
 @app.delete("/delete_user")
 async def delete_user(username:str):
     removed_user = services.delete_user(db, username)
@@ -234,4 +234,9 @@ async def delete_user(id:int):
 async def delete_user_build_from_username(username:str, build_name:str):
     removed_user_build = services.delete_user_build_from_username(db, username, build_name)
     return removed_user_build
+
+@app.delete("/clear_tables")
+async def clear_tables():
+    removed = services.clear_data(db)
+    return removed
 #-----------------------------------------------------------------#
