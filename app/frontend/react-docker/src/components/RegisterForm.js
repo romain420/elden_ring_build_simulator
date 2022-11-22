@@ -21,6 +21,7 @@ export function RegisterForm() {
     // alert(JSON.stringify(data))
     postNewUser(postUrl, data)
     reset()
+    window.location.href = '/login';
   };
 
 

@@ -14,7 +14,8 @@ export function LoginForm() {
     } = useForm()
 
     const onSubmit = (data) => {
-        alert(JSON.stringify(data))
+        // alert(JSON.stringify(data))
+        window.location.href = '/weapon';
     };
 
     return (

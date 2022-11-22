@@ -18,7 +18,7 @@ export async function postNewUser(url, data) {
     const message = "";
     const result = await axios.post(url, data)
         .then(function (response) {
-            alert("Your account has been successfully registered !")
+            alert("Your account has been successfully registered !");
         })
         .catch(function (error) {
             alert("⚠ Error : Your 'User Name' or 'Email' is already use");
