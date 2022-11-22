@@ -52,6 +52,15 @@ def get_user_builds(db:Session, username:str):
         to_return += "    " + build + " contains: " + user_build.items_id
     return to_return
 
+def check_information(db:Session, username:str, password:str):
+    user = db.query(models.User).filter(models.User.username == username).first()
+    if not user:
+        return "This user does not exist"
+    if user.password != password:
+        return "Wrong password, please check your informations"
+    to_return = "The infos are matching, sending user's infos:     " + get_user_infos(db, username)
+    return to_return
+
 #---------------------CREATION PART---------------------#
 def create_user(db: Session, post: schemas.User) -> models.User:
     check_username = db.execute(select(models.User).where(models.User.username == post.username)).first()

@@ -80,7 +80,12 @@ async def display_all_users():
     all_names = services.get_summary(db) 
     return all_names
 
-@app.get("/{username}", status_code=200)
+@app.get("/check_mdp", status_code=200)
+async def check_infos(username, password):
+    response = services.check_information(db, username, password)
+    return response
+
+@app.get("/{username}", status_code=200)   # else case, implement before this or you will encounter problems
 async def display_specific_user(username):
     user_infos = services.get_user_infos(db, username)
     return user_infos
