@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import ReactDOM from "react-dom";
 import { useForm } from "react-hook-form";
-// import {  } from "../services/userApi"
+import { confirmUser } from "../services/userApi"
 import "./Form.css"
 
 export function LoginForm() {
@@ -13,9 +13,18 @@ export function LoginForm() {
         reset
     } = useForm()
 
+    let [userConnect, setUserConnect] = React.useState([]);
+
     const onSubmit = (data) => {
-        // alert(JSON.stringify(data))
-        window.location.href = '/weapon';
+        const userName = data.username;
+        const password = data.password;
+        const url = "http://localhost:5000/check_mdp?username=" + userName + "&password=" + password;
+        // alert(url)
+        confirmUser(url).them(res => {
+            console.log(res.data)
+        })
+
+        // window.location.href = '/weapon';
     };
 
     return (

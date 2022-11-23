@@ -7,6 +7,19 @@ export async function getUsers(url) {
         return response;
     });
 }
+
+export async function confirmUser(url){
+    // console.log("this is userCred :", url)
+    return await axios.get(url)
+        .then(function(response) {
+            // return response;
+            if(response.data !== "This user does not exist")alert(response.data)
+            else alert(response.data)
+        })
+        // .catch(function (error) {
+        //     alert("⚠ Sorry but this user doesn't exist")
+        // })
+}
 //------------------------------------------------//
 
 
