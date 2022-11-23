@@ -19,9 +19,9 @@ export function LoginForm() {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <label>User Name</label>
-            <input
+        <form className="connect-form" onSubmit={handleSubmit(onSubmit)}>
+            <label className="form-label">User Name</label>
+            <input className="form-input"
                 {...register("username",{
                     required: true,
                     pattern: /^[A-Za-z0-9._]+$/i
@@ -32,8 +32,8 @@ export function LoginForm() {
             {errors?.username?.type === "pattern" && (
                 <p className="error-message">hmmm.. There is something strange here</p>
             )}
-            <label>Password</label>
-            <input
+            <label className="form-label">Password</label>
+            <input className="form-input"
                 type = "password"
                 {...register("password",{
                     required: true,

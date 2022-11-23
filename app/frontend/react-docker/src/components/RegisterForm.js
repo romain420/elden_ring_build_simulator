@@ -26,9 +26,9 @@ export function RegisterForm() {
 
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <label>First Name</label>
-      <input
+    <form className="connect-form" onSubmit={handleSubmit(onSubmit)}>
+      <label className="form-label">First Name</label>
+      <input className="form-input"
         {...register("First_name", {
           maxLength: 20,
           pattern: /^[A-Za-z]+$/i
@@ -42,16 +42,16 @@ export function RegisterForm() {
       {errors?.First_name?.type === "pattern" && (
         <p className="error-message">Alphabetical characters only</p>
       )}
-      <label>Laste Name</label>
-      <input 
+      <label className="form-label">Laste Name</label>
+      <input className="form-input"
         {...register("Last_name", { pattern: /^[A-Za-z]+$/i })}
         placeholder = "Last Name"
       />
       {errors?.Last_name?.type === "pattern" && (
         <p className="error-message">Alphabetical characters only</p>
       )}
-      <label>User Name</label>
-      <input
+      <label className="form-label">User Name</label>
+      <input className="form-input"
         {
           ...register("username", {
             required: true,
@@ -68,8 +68,8 @@ export function RegisterForm() {
       {errors?.username?.type === "pattern" && (
         <p className="error-message">Only Alphabetical characters, Number or . and _ are allowed </p>
       )}
-      <label>Age</label>
-      <input 
+      <label className="form-label">Age</label>
+      <input className="form-input"
         type="number" 
         {...register("age", 
           { min: 16, 
@@ -85,8 +85,8 @@ export function RegisterForm() {
       {errors?.age?.type === "max" && (
         <p className="error-message">Hmmm.. the oldest person alive is about 118 years old. Please unter your age again</p>
       )}
-      <label>Email Adress</label>
-      <input
+      <label className="form-label">Email Adress</label>
+      <input className="form-input"
         {
           ...register("email", {
             required:true,
@@ -106,8 +106,8 @@ export function RegisterForm() {
           Please enter a correct email adress
         </p>
       )}
-      <label>Password</label>
-      <input
+      <label className="form-label">Password</label>
+      <input className="form-input"
         type="password"
         {...register("password",{
             required: "You must specify a password",
@@ -120,8 +120,8 @@ export function RegisterForm() {
         placeholder = "Password"
       />
       {errors.password && <p className="error-message">{errors.password.message}</p>}
-      <label>Confirm Password</label>
-      <input
+      <label className="form-label">Confirm Password</label>
+      <input className="form-input"
         type="password"
         {...register("comfirmPassword",{
             validate: value =>

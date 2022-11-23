@@ -1,4 +1,4 @@
-form {
+.connect-form {
     max-width: 500px;
     margin: 0 auto;
 }
@@ -13,7 +13,7 @@ form {
     content: "⚠ ";
 }
 
-input {
+.form-input {
     display: block;
     box-sizing: border-box;
     width: 100%;
@@ -24,7 +24,7 @@ input {
     font-size: 14px;
 }
 
-label {
+.form-label {
     line-height: 2;
     text-align: left;
     display: block;

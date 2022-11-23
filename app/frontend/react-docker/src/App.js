@@ -8,7 +8,7 @@ import { LoginPage } from "./pages/LoginPage";
 import { ErrorPage } from "./pages/ErrorPage";
 
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 export default function App() {

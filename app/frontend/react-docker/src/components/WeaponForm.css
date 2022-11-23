@@ -1,0 +1,36 @@
+.stat-form {
+    max-width: 200px ;
+    margin-left: 20px ;
+}
+
+.error-message {
+    color: #bf1650 !important;
+    font-size: 14px !important;
+}
+
+.error-message::before {
+    display: inline;
+    content: "⚠ ";
+}
+
+.stat-input {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid white;
+    padding: 5px 7px;
+    margin-bottom: 5px;
+    font-size: 15px;
+}
+
+.stat-label {
+    line-height: 2;
+    text-align: left;
+    display: block;
+    margin-bottom: 5px;
+    margin-top: 7px;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 200;
+}

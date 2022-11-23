@@ -1,11 +1,12 @@
 import React from 'react'
 import axios from "axios";
-import Col from 'react-bootstrap/Col';
+// import Col from 'react-bootstrap/Col';
 import { NavBar } from '../components/NavBar';
 import { useParams } from 'react-router-dom';
 import { firstRequest } from '../services/eldenRing';
 import { getUsers } from '../services/userApi';
-import { ItemCard } from '../components/YourSpace/ItemCard';
+// import { ItemCard } from '../components/YourSpace/ItemCard';
+import { WeaponStatsForm } from '../components/WeaponStatsForm';
 import './YourSpace.css';
 
 
@@ -57,7 +58,8 @@ export function YourSpace() {
             <NavBar navBarLinks={navBarLinks} navBarTitle={navBarTitle}/>
             <div className='your-space-body'>
                 <p>{userDatas[0]?.username}</p>
-                <Col>
+                <WeaponStatsForm/>
+                {/* <Col>
                     <ItemCard ItemName={itemDatas[0]?.name} 
                             ItemImg={itemDatas[0]?.image} 
                             ItemText={itemDatas[0]?.description}/>
@@ -71,9 +73,10 @@ export function YourSpace() {
                             ItemImg={itemDatas[3]?.image} 
                             ItemText={itemDatas[3]?.description}/>
                     <ItemCard/>
-                </Col>
+                </Col> */}
             </div> 
             {/* <div className='request'>{itemDatas[0]?.name}</div> */}
+            
             
 
         </div>
