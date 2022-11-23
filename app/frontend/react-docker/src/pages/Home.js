@@ -11,7 +11,7 @@ const navBarLinks = [
 ];
   
 export function Home() {
-    const navBarTitle = "build creator";
+    const navBarTitle = "build Creator";
     return (
         <div className="App">
             <NavBar navBarLinks={navBarLinks} navBarTitle={navBarTitle}/>

@@ -57,7 +57,7 @@ export function YourSpace() {
         <div>
             <NavBar navBarLinks={navBarLinks} navBarTitle={navBarTitle}/>
             <div className='your-space-body'>
-                <p>{userDatas[0]?.username}</p>
+                {/* <p>{userDatas[0]?.username}</p> */}
                 <WeaponStatsForm/>
                 {/* <Col>
                     <ItemCard ItemName={itemDatas[0]?.name} 
