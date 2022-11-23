@@ -80,7 +80,12 @@ async def display_all_users():
     all_names = services.get_summary(db) 
     return all_names
 
-@app.get("/{username}", status_code=200)
+@app.get("/check_mdp", status_code=200)
+async def check_infos(username, password):
+    response = services.check_information(db, username, password)
+    return response
+
+@app.get("/{username}", status_code=200)   # else case, implement before this or you will encounter problems
 async def display_specific_user(username):
     user_infos = services.get_user_infos(db, username)
     return user_infos
@@ -108,33 +113,21 @@ async def one_each():
     user1 = schemas.User(username="to_grt",
                         First_name="to_grt",
                         Last_name="to_grt",
-                        date_of_birth="2022-11-11T22:17:05.260Z",
+                        age = 22,
                         email="to_grt",
-                        password="to_grt",
-                        created_at="2022-11-11T22:17:05.260Z",
-                        last_visit="2022-11-11T22:17:05.260Z",
-                        nb_builds=0,
-                        builds=[])
+                        password="to_grt")
     user2 = schemas.User(username="to_grt2",
                         First_name="to_grt2",
                         Last_name="to_grt2",
-                        date_of_birth="2022-11-11T22:17:05.260Z",
+                        age = 23,
                         email="to_grt2",
-                        password="to_grt2",
-                        created_at="2022-11-11T22:17:05.260Z",
-                        last_visit="2022-11-11T22:17:05.260Z",
-                        nb_builds=0,
-                        builds=[])    
+                        password="to_grt2")    
     user3 = schemas.User(username="to_grt3",
                         First_name="to_grt3",
                         Last_name="to_grt3",
-                        date_of_birth="2022-11-11T22:17:05.260Z",
+                        age = 24,
                         email="to_grt3",
-                        password="to_grt3",
-                        created_at="2022-11-11T22:17:05.260Z",
-                        last_visit="2022-11-11T22:17:05.260Z",
-                        nb_builds=0,
-                        builds=[])                                         
+                        password="to_grt3")                                         
     item1 = schemas.Item(name="item1",
                         image="item1",
                         description="item1",
