@@ -46,14 +46,6 @@ def get_user_infos(db:Session, username:str):
     if not user:
         return "This user does not exist"
     update_last_visit(db, user.username)
-    to_return = {
-        "username":user.username,
-        "First_name": user.First_name,
-        "Last_name": user.Last_name,
-        "nb_builds":str(user.nb_builds),
-        "last_visit":str(user.last_visit),
-        "builds": ', '.join(user.builds)
-    }
     return user
 
 def get_user_builds(db:Session, username:str):
