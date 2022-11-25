@@ -5,7 +5,6 @@ from sqlalchemy.sql.expression import select
 from fastapi import HTTPException
 import schemas, models
 from datetime import datetime
-import json
 
 
 #--------------------------user methods--------------------------#

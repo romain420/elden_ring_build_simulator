@@ -185,6 +185,30 @@ async def one_each():
                                     nb_items=0,
                                     items_id=[],
                                     owner_username="to_grt")
+    stat1 = schemas.Stat(dexterity=0,
+                        faith=666,
+                        arcane=324,
+                        mind=7,
+                        strength=5,
+                        intelligence=999,
+                        vigor=12,
+                        endurance=546)
+    stat2 = schemas.Stat(dexterity=1,
+                        faith=2,
+                        arcane=3,
+                        mind=4,
+                        strength=5,
+                        intelligence=6,
+                        vigor=7,
+                        endurance=8)
+    stat3 = schemas.Stat(dexterity=9,
+                        faith=10,
+                        arcane=11,
+                        mind=12,
+                        strength=13,
+                        intelligence=14,
+                        vigor=15,
+                        endurance=16)
     services.create_item(db, item1)
     services.create_item(db, item2)
     services.create_item(db, item3)
@@ -194,6 +218,9 @@ async def one_each():
     services.create_user_build(db, user_build1)
     services.create_user_build(db, user_build2)
     services.create_user_build(db, user_build3)
+    services.create_stat(db, stat1)
+    services.create_stat(db, stat2)
+    services.create_stat(db, stat3)
 
 @app.post("/delete_user_post")
 async def delete_user(username:str):
