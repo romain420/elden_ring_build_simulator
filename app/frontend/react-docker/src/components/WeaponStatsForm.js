@@ -18,7 +18,7 @@ export function WeaponStatsForm() {
     return (
         <div>
             <form className='stat-form' onSubmit={handleSubmit(onSubmit) }>
-                <div className='row-form'>
+                {/* <div className='row-form'>
                     <label className='stat-label'>Weapon Name</label>
                     <input className='stat-input'
                         {...register("weaponName", {
@@ -26,7 +26,7 @@ export function WeaponStatsForm() {
                             pattern: /^[A-Za-z._ ]+$/i
                         })}
                     />
-                </div>
+                </div> */}
                 {errors?.weaponName?.type === "required" && (<p className='error-message'>This field is required</p>)}
                 {errors?.weaponName?.type === "pattern" && <p className='error-message'>This weapon does not exist pls check the name</p>}
                 <div className='row-form'>
