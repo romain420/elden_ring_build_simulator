@@ -23,6 +23,10 @@ def get_items(db: Session):
     all_items = db.query(models.Item).all()
     return all_items
 
+def get_stats(db: Session):
+    all_stats = db.query(models.Stat).all()
+    return all_stats
+
 def get_summary(db:Session):
     all_last_name = db.query(models.User.Last_name).all()
     all_first_name = db.query(models.User.First_name).all()
@@ -106,6 +110,11 @@ def create_item(db: Session, post: schemas.Item) -> models.Item:
     db.commit()
     return item
 
+def create_stat(db:Session, post: schemas.Stat) -> models.Stat:
+    stats = models.Stat(**post.dict())
+    db.add(stats)
+    db.commit()
+    return stats
 #---------------------UPDATE PART---------------------#
 #update fields in table User
 def update_user_info(db:Session, update:schemas.User):#TODO try to update 1 field for the moment after that let's update 1 or more field at the same time
@@ -176,6 +185,14 @@ def delete_item(db:Session, name:str):
     db.commit()
     return "item deleted with success, this should not happen, be careful for user_builds with missing items"
 
+def delete_stat(db:Session, id:int):
+    stat = db.query(models.Stat).filter(models.Stat.id == id).first()
+    if not stat:
+        raise HTTPException(status_code=404, detail= f"Stat n°{id} doesn't exist. We can't delete it.")
+    db.delete(stat)
+    db.commit()
+    return "stat deleted with success"
+
 def delete_user_build(db:Session, id:int):
     build = db.query(models.User_build).filter(models.User_build.id == id).first()
     if not build:
@@ -205,6 +222,7 @@ def clear_data(db:Session): # /!\ Clear all the tables, be careful
     db.query(models.User_build).delete()
     db.query(models.Item).delete()
     db.query(models.User).delete()
+    db.query(models.Stat).delete()
     db.commit()
     return "all tables has been clear"
 

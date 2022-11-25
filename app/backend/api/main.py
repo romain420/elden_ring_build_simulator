@@ -75,6 +75,11 @@ async def get_items():
     all_items = services.get_items(db)
     return all_items
 
+@app.get("/stats", status_code=200)
+async def get_stats():
+    all_stats = services.get_stats(db)
+    return all_stats
+
 @app.get("/users_summary", status_code=200)
 async def display_all_users():
     all_names = services.get_summary(db) 
@@ -107,6 +112,10 @@ async def post_user_build(user_build: schemas.User_build):
 @app.post("/item", status_code=200)
 async def post_item(item: schemas.Item):
     services.create_item(db, item)
+
+@app.post("/stat", status_code=200)
+async def post_stat(stat: schemas.Stat):
+    services.create_stat(db, stat)
 
 @app.post("/test", status_code=200)
 async def one_each():
@@ -217,6 +226,11 @@ async def delete_user(username:str):
 async def delete_item(name:str):
     removed_item = services.delete_item(db, name)
     return removed_item
+
+@app.delete("/delete_stat")
+async def delete_stat(id:int):
+    removed_stat = services.delete_stat(db, id)
+    return removed_stat
 
 @app.delete("/delete_user_build")
 async def delete_user(id:int):
