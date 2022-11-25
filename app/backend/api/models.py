@@ -34,12 +34,12 @@ class User_build(BaseSQL):
     __tablename__ = "user_builds"
 
     id =                Column(Integer, primary_key=True) #auto-increment
-    name =              Column(String, nullable = False)          # a changer plus tard, pas sur de savoir comment ajouter une classe custom
-    created_at =        Column(DateTime, nullable = False)
-    last_visit =        Column(DateTime, nullable = False)
-    last_update =       Column(DateTime, nullable = False)        # devrait-on sauvegarder les précédentes versions des builds ? ou useless ?
-    nb_visits =         Column(Integer, nullable = False)
-    nb_items =          Column(Integer, nullable = False) 
+    name =              Column(String, nullable=False)          # a changer plus tard, pas sur de savoir comment ajouter une classe custom
+    created_at =        Column(DateTime, nullable=False)
+    last_visit =        Column(DateTime, nullable=False)
+    last_update =       Column(DateTime, nullable=False)        # devrait-on sauvegarder les précédentes versions des builds ? ou useless ?
+    nb_visits =         Column(Integer, nullable=False)
+    nb_items =          Column(Integer, nullable=False) 
     items_id =          Column(String, nullable=False)
     owner_username =    Column(String, ForeignKey("users.username"))
     
@@ -51,16 +51,28 @@ class Item(BaseSQL):
     __tablename__ = "items"
 
     id =            Column(Integer, primary_key=True) #auto-increment
-    name =          Column(String, nullable = False, unique=True)
-    image =         Column(String, nullable = False)
-    description =   Column(String, nullable = False)
-    category =      Column(String, nullable = False)
-    dmg_negation =  Column(String, nullable = False)    # encore une fois pas sur, surement un Enum of Dictionnaires  le format est: ...{name: "Phy", amount: 7}, {name: "Strike", amount: 6},...
-    resistance =    Column(String, nullable = False)    # pareil qu'au dessus
-    weight =        Column(Integer, nullable = False)
+    name =          Column(String, nullable=False, unique=True)
+    image =         Column(String, nullable=False)
+    description =   Column(String, nullable=False)
+    category =      Column(String, nullable=False)
+    dmg_negation =  Column(String, nullable=False)    # encore une fois pas sur, surement un Enum of Dictionnaires  le format est: ...{name: "Phy", amount: 7}, {name: "Strike", amount: 6},...
+    resistance =    Column(String, nullable=False)    # pareil qu'au dessus
+    weight =        Column(Integer, nullable=False)
     
     #stuff = relationship("User_build", back_populates="item")
 
+class Stat(BaseSQL):
+    __tablename__ = "stats"
+
+    id =            Column(Integer, primary_key=True) #auto-increment
+    vigor =         Column(Integer, nullable=True)
+    mind =          Column(Integer, nullable=True)
+    endurance =     Column(Integer, nullable=True)
+    strength =      Column(Integer, nullable=True)
+    dexterity =     Column(Integer, nullable=True)
+    intelligence =  Column(Integer, nullable=True)
+    faith =         Column(Integer, nullable=True)
+    arcane =        Column(Integer, nullable=True)
 
 # #table build
 # class Build(BaseSQL):

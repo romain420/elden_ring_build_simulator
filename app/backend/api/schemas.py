@@ -50,16 +50,17 @@ class Item(BaseModel):
     class Config:
         orm_mode = True
 
-#-------------------------------------------------------------------------#
+#schema class Stat
+class Stat(BaseModel):
 
-#schema class Build
-# class Build(BaseModel):
-#     id : str#Annotated[str, Field(default_factory=lambda: uuid4().hex)]
-#     elmet : str
-#     Last_name : str
-#     gantlet : str
-#     choose : str
-#     weapon : str
+    vigor:          int
+    mind:           int
+    endurance:      int
+    strength:       int
+    dexterity:      int
+    intelligence:   int
+    faith:          int
+    arcane:         int
 
-#     class Config:
-#         orm_mode = True
+    class Config:
+        orm_mode = True
