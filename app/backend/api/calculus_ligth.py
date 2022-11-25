@@ -54,7 +54,7 @@ def getStatResistance(runeLevel, level):
         defense += 40 + 10 * ((level - 60) / 39)
     return math.floor(defense)
 
-def stats( vigor, mind, endurance, strength, dexterity, intelligence, faith, arcane):
+def stats(vigor, mind, endurance, strength, dexterity, intelligence, faith, arcane):
     stats = {}
     runeLevel = -79 + vigor + mind + endurance + strength + dexterity + intelligence + faith + arcane
     stats = {"runeLevel":runeLevel,

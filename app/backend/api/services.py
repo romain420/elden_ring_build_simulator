@@ -3,7 +3,7 @@ from typing import List
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.expression import select
 from fastapi import HTTPException
-import schemas, models
+import schemas, models, calculus_ligth
 from datetime import datetime
 import json
 
@@ -76,10 +76,8 @@ def check_information(db:Session, username:str, password:str):
 
 def compute_statistics(db:Session, infos_json:str):
     infos_dict = json.loads(infos_json)   # string json to python dictionary
-    print("infos_dict: ", infos_dict)
     stats = models.Stat(**infos_dict)
-    print("stats: ", stats)
-    response_stat = None #TODO call here stats' function
+    response_stat = calculus_ligth.stats(int(stats.vigor), int(stats.mind), int(stats.endurance), int(stats.strength), int(stats.dexterity), int(stats.intelligence), int(stats.faith), int(stats.arcane))
     print("response_stat: ", response_stat)
     #TODO save that (response_stat) in the database?
     return response_stat
