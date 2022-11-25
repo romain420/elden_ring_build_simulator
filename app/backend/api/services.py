@@ -5,6 +5,7 @@ from sqlalchemy.sql.expression import select
 from fastapi import HTTPException
 import schemas, models
 from datetime import datetime
+import json
 
 
 #--------------------------user methods--------------------------#
@@ -37,8 +38,16 @@ def get_user_infos(db:Session, username:str):
     if not user:
         return "This user does not exist"
     update_last_visit(db, user.username)
-    to_return = "This user exists:    username: " + user.username + "    First name: " + user.First_name + "     Last name: " + user.Last_name + "     nb_builds: " + str(user.nb_builds) + "      last_visit: " + str(user.last_visit) + "     name of builds: " + ', '.join(user.builds)
-    return to_return
+    to_return = {}
+    to_return = {
+        "username":user.username,
+        "First_name": user.First_name,
+        "Last_name": user.Last_name,
+        "nb_builds":str(user.nb_builds),
+        "last_visit":str(user.last_visit),
+        "builds": ', '.join(user.builds)
+    }
+    return user
 
 def get_user_builds(db:Session, username:str):
     user = db.query(models.User).filter(models.User.username == username).first()
@@ -58,7 +67,7 @@ def check_information(db:Session, username:str, password:str):
         return "This user does not exist"
     if user.password != password:
         return "Wrong password, please check your informations"
-    to_return = "The infos are matching, sending user's infos:     " + get_user_infos(db, username)
+    to_return = get_user_infos(db, username)
     return to_return
 
 #---------------------CREATION PART---------------------#

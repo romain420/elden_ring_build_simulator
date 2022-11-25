@@ -13,7 +13,9 @@ export async function confirmUser(url){
     return await axios.get(url)
         .then(function(response) {
             // return response;
-            if(response.data !== "This user does not exist")alert(response.data)
+            if(response.data !== "This user does not exist"){
+                return response
+            }
             else alert(response.data)
         })
         // .catch(function (error) {

@@ -20,10 +20,15 @@ export function LoginForm() {
         const password = data.password;
         const url = "http://localhost:5000/check_mdp?username=" + userName + "&password=" + password;
         // alert(url)
-        confirmUser(url).them(res => {
-            console.log(res.data)
+        confirmUser(url).them(function(res) {
+            console.log("this is user info :" + res.data)
         })
-
+        // React.useEffect(() => {
+        //     confirmUser(url).then(res => {
+        //         setUserConnect(res.data);
+        //     })
+        // }, []);
+        // console.log(userConnect[0])
         // window.location.href = '/weapon';
     };
 
