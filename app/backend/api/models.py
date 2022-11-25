@@ -9,7 +9,6 @@ from MutableList import MutableList
 
 
 #Creation de toute les tables de la db
-
 #table user
 class User(BaseSQL):
     __tablename__ = "users"
@@ -27,8 +26,6 @@ class User(BaseSQL):
     builds =        Column(MutableList.as_mutable(ARRAY(String)), nullable=False)       # Les updates de liste python n'envoie pas d'update lors de la modification, nous transformons donc notre ARRAY en mutable 
                                                                                         # personnalisée qui renverrat des updates lors des changements. Voir MutableList.py pour la structure de la classe. 
     
-    #build = relationship("User_build", back_populates="owner")
-
 #table user_build
 class User_build(BaseSQL):
     __tablename__ = "user_builds"
@@ -42,9 +39,7 @@ class User_build(BaseSQL):
     nb_items =          Column(Integer, nullable=False) 
     items_id =          Column(String, nullable=False)
     owner_username =    Column(String, ForeignKey("users.username"))
-    
-    #owner = relationship("User", back_populates="build")
-    #item = relationship("Item", back_populates="stuff")
+
 
 #table item
 class Item(BaseSQL):
@@ -58,9 +53,9 @@ class Item(BaseSQL):
     dmg_negation =  Column(String, nullable=False)    # encore une fois pas sur, surement un Enum of Dictionnaires  le format est: ...{name: "Phy", amount: 7}, {name: "Strike", amount: 6},...
     resistance =    Column(String, nullable=False)    # pareil qu'au dessus
     weight =        Column(Integer, nullable=False)
-    
-    #stuff = relationship("User_build", back_populates="item")
 
+
+#table stat
 class Stat(BaseSQL):
     __tablename__ = "stats"
 
@@ -74,14 +69,23 @@ class Stat(BaseSQL):
     faith =         Column(Integer, nullable=True)
     arcane =        Column(Integer, nullable=True)
 
-# #table build
-# class Build(BaseSQL):
-#     __tablename__= "builds"
 
-#     id =            Column(String, primary_key=True, index=True)
-#     elmet :         Column(String)
-#     gantlet :       Column(String)
-#     choose :        Column(String)
-#     weapon :        Column(String)
+#table CharacStats
+class CharacStats(BaseSQL):
+    __tablename__ = "characStats"
 
-
+    id =                Column(Integer, primary_key=True) #auto-increment
+    runeLevel =         Column(Integer, nullable=True)
+    HP =                Column(Integer, nullable=True)
+    FP =                Column(Integer, nullable=True)
+    stamina =           Column(Integer, nullable=True)
+    equipLoad =         Column(Integer, nullable=True)
+    physicalDefense =   Column(Integer, nullable=True)
+    magicDefense =      Column(Integer, nullable=True)
+    fireDefense =       Column(Integer, nullable=True)
+    lightningDefense =  Column(Integer, nullable=True)
+    holyDefense =       Column(Integer, nullable=True)
+    immunity =          Column(Integer, nullable=True)
+    robustness   =      Column(Integer, nullable=True)
+    focus =             Column(Integer, nullable=True)
+    vitality =          Column(Integer, nullable=True)

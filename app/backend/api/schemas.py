@@ -5,7 +5,6 @@ from uuid import uuid4
 from typing_extensions import Annotated
 
 #schema in database of all differents table
-
 #schema class User
 class User(BaseModel):
     username :          str
@@ -50,6 +49,7 @@ class Item(BaseModel):
     class Config:
         orm_mode = True
 
+
 #schema class Stat
 class Stat(BaseModel):
 
@@ -61,6 +61,28 @@ class Stat(BaseModel):
     intelligence:   int
     faith:          int
     arcane:         int
+
+    class Config:
+        orm_mode = True
+
+
+#schema class CharacUser
+class CharacStats(BaseModel):
+
+    runeLevel :         int
+    HP :                int
+    FP :                int
+    stamina :           int
+    equipLoad :         int
+    physicalDefense :   int
+    magicDefense :      int
+    fireDefense :       int
+    lightningDefense :  int
+    holyDefense :       int
+    immunity :          int
+    robustness   :      int
+    focus :             int
+    vitality :          int
 
     class Config:
         orm_mode = True
