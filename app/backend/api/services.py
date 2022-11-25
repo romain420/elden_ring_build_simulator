@@ -5,6 +5,7 @@ from sqlalchemy.sql.expression import select
 from fastapi import HTTPException
 import schemas, models
 from datetime import datetime
+import json
 
 
 #--------------------------user methods--------------------------#
@@ -72,6 +73,17 @@ def check_information(db:Session, username:str, password:str):
         return "Wrong password, please check your informations"
     to_return = get_user_infos(db, username)
     return to_return
+
+def compute_statistics(db:Session, infos_json:str):
+    infos_dict = json.loads(infos_json)   # string json to python dictionary
+    print("infos_dict: ", infos_dict)
+    stats = models.Stat(**infos_dict)
+    print("stats: ", stats)
+    response_stat = None #TODO call here stats' function
+    print("response_stat: ", response_stat)
+    #TODO save that (response_stat) in the database?
+    return response_stat
+
 
 #---------------------CREATION PART---------------------#
 def create_user(db: Session, post: schemas.User) -> models.User:

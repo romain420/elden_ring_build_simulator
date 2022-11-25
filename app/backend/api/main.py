@@ -90,7 +90,12 @@ async def check_infos(username, password):
     response = services.check_information(db, username, password)
     return response
 
-@app.get("/{username}", status_code=200)   # else case, implement before this or you will encounter problems
+@app.get("/compute_stats", status_code=200)
+async def compute_stats(infos_json):
+    response = services.compute_statistics(db, infos_json)
+    return response
+
+@app.get("/{username}", status_code=200)
 async def display_specific_user(username):
     user_infos = services.get_user_infos(db, username)
     return user_infos
