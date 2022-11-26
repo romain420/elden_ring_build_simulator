@@ -48,7 +48,7 @@ export function RegisterForm() {
       {errors?.First_name?.type === "pattern" && (
         <p className="error-message">Alphabetical characters only</p>
       )}
-      <label className="form-label">Laste Name</label>
+      <label className="form-label">Last Name</label>
       <input className="form-input"
         {...register("Last_name", { pattern: /^[A-Za-z]+$/i })}
         placeholder = "Last Name"
