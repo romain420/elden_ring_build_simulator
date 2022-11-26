@@ -1,92 +1,133 @@
-# Elden_ring_build_simulator
+# Elden Ring Build Simulator
 
-
+Welcome inside our Elden Ring build simulator. For the moment it's only a pre-release where you can only calcule your character statistics without any stuff. But stay tune in some few weeks new features will be add ! 
 
 ## Getting started
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+For the moment our simulator is not release online. But you can make the app **run** with only few command ! 
+This is the objectif of this part. We will explain you how to **launch our app** on your own system.  
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+### Prerequisites  
 
-## Add your files
+There is not a lot of prerequisites. But it is necessary to respect them.  
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+You need to have :  
+- Git 
+- Docker  
 
+Install on your distribution.  
+
+Normally you can launch app without any issues on destribution of your choice Linux *(Debian base)*, Windows and MAC *(but we don't had opportunity to test for the last one)*.  
+
+If you respect those conditions we can go for the next step !  
+
+### Installation  
+
+In this part we will see how to get the project on your system.  
+
+1. Open **Terminal** or a **PowerShell** (if you are on Windows)
+2. Then unter the following command :  
+```bash
+git clone <repository_link>
+```  
+Normally you should be able to see **elden_ring_build_simulator** folder if you write command `ls`.  
+
+### App launching
+
+Now let's past in a little bit more tricky part. We are going to **launch the app** with only few command.  
+
+1. Make sure you are in project folder with command  
+```bash
+cd ./elden_ring_build_simulator
+``` 
+2. Now enter in folder **app** with this command  
+```bash
+cd ./app
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/RomainD_/elden_ring_build_simulator.git
-git branch -M main
-git push -uf origin main
+You should see the following path in your command line `~/elden_ring_build_simulator/app$`  
+3.Now is the most important step ! Be carefull it's going to be fast ! Unter this command  
+```bash
+docker-compose up -d
+```  
+*You can remove the `-d` argument if you want to have logs from all differents containers insides the app*  
+4. Let it load a little bit and after see  
+```bash
+Creating network "app_default" with the default driver
+Creating app_db_1  ... done
+Creating app_app_1 ... done
+Creating app_api_1 ... done
+```
+You can run the following command  
+```bash
+docker ps
+``` 
+and you should see something like this  
+```bash
+CONTAINER ID   IMAGE      COMMAND                  CREATED          STATUS          PORTS                                               NAMES
+************   app_api    "uvicorn main:app --…"   52 minutes ago   Up 52 minutes   80/tcp, 0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   app_api_1
+************   app_app    "docker-entrypoint.s…"   52 minutes ago   Up 52 minutes   0.0.0.0:8000->3000/tcp, :::8000->3000/tcp           app_app_1
+************   postgres   "docker-entrypoint.s…"   52 minutes ago   Up 52 minutes   0.0.0.0:5432->5432/tcp, :::5432->5432/tcp           app_db_1
+```
+If it's the case, I have a great new the is running perfectly !  
+
+## The App 
+
+As you can see in last command *App* is composed of 3 differents containers. 
+
+### Backend
+Backent is composed of 2 differnet part.
+
+#### API 
+
+```bash
+CONTAINER ID   IMAGE      COMMAND                  CREATED          STATUS          PORTS                                               NAMES
+************   app_api    "uvicorn main:app --…"   52 minutes ago   Up 52 minutes   80/tcp, 0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   app_api_1
+```
+This container the one that make the interface between our **frontend app** and the **database**. It is host on port 5000, to access it just unter `localhost:5000` or `127.0.0.1:5000` in your browser nav
+It is a classical **REST API** realise with [FastAPI](https://fastapi.tiangolo.com/) framework, where you can execute `GET`, `POST`, `PUT` and `DELETE` request.  
+*If you want access all API methods you can unter `localhost:5000/docs`*
+
+#### Database  
+```bash
+CONTAINER ID   IMAGE      COMMAND                  CREATED          STATUS          PORTS                                               NAMES
+************   postgres   "docker-entrypoint.s…"   52 minutes ago   Up 52 minutes   0.0.0.0:5432->5432/tcp, :::5432->5432/tcp           app_db_1
+```
+This is our database. It is a [Postgres](https://www.postgresql.org/) databas and it's compose of 5 differents table. 
+
+To check the table content you have to unter the container with the following command : 
+```bash
+docker exec -it <container_id> bash
+```
+Now you should be inside container. To enter the database itself you can run this command : 
+```bash
+psql <database_name> <user_name>
+```
+*database name and user name are inside `app/backend/.env`*
+
+Finally you can run SQL command to check the table content *(at the begining they shoudl be empty)*.
+```bash
+SELECT * FROM users;
+```
+*don't forget `;` at the end of request*
+
+### Frontend 
+
+Finally the last part of the application **the frontend**.  
+
+```bash
+CONTAINER ID   IMAGE      COMMAND                  CREATED          STATUS          PORTS                                               NAMES
+************   app_app    "docker-entrypoint.s…"   52 minutes ago   Up 52 minutes   0.0.0.0:8000->3000/tcp, :::8000->3000/tcp           app_app_1
 ```
 
-## Integrate with your tools
+This is a frontend realise with framework [React](https://fr.reactjs.org/) that is link to 2 differents **API** one is an open source [elden ring](https://eldenring.fanapis.com/) to get all items, weapon, stuff from the game. And the second one is our **API** that store user information.
 
-- [ ] [Set up project integrations](https://gitlab.com/RomainD_/elden_ring_build_simulator/-/settings/integrations)
+## Finally
 
-## Collaborate with your team
+I hope this little tutorial have been clear enough, enjoi the app !  
+If you face any issue or have some idea to upgrade the app leave a comment on [Issues](https://gitlab.com/RomainD_/elden_ring_build_simulator/-/issues). 
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+And don't hesitate to check [Wiki](https://gitlab.com/RomainD_/elden_ring_build_simulator/-/wikis/home) for more details. 
 
-## Test and Deploy
 
-Use the built-in continuous integration in GitLab.
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
 
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
