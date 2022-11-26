@@ -57,7 +57,7 @@ export function YourSpace() {
     return (
         <div>
             <Void/>
-            <NavBar navBarLinks={navBarLinks} navBarTitle={navBarTitle}/>
+            <NavBar navBarTitle={navBarTitle}/>
             <div className='your-space-body'>
                 {/* <p>{userDatas[0]?.username}</p> */}
                 <WeaponStatsForm/>

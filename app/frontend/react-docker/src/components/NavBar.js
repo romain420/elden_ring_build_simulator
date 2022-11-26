@@ -44,12 +44,12 @@ export const NavBar = ({navBarLinks, navBarTitle}) => {
                 </a>
             </li>
             <li className='navbar-item' style={{display: isConnect !== null ? 'block' : 'none'}}>
-                <a className='navbar-link' href='/build_space'>
+                <a className='navbar-link' href={`/your_space/${isConnect}`}>
                     Build
                 </a>
             </li>
             <li className='navbar-item' style={{display: isConnect !== null ? 'block' : 'none'}}>
-                <a className='navbar-link' href='/weapon'>
+                <a className='navbar-link' href={`/your_weapon/${isConnect}`}>
                     Weapon
                 </a>
             </li>

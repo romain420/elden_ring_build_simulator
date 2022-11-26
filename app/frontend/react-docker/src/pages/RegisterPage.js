@@ -13,7 +13,7 @@ export function RegisterPage() {
 
     return (
         <div>
-            <NavBar navBarLinks={navBarLinks} navBarTitle={navBarTitle}/>
+            <NavBar navBarTitle={navBarTitle}/>
             <h2 className='form-title'>Register Form</h2>
             <RegisterForm/>
         </div>

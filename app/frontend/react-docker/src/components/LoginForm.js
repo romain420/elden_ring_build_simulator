@@ -25,7 +25,7 @@ export function LoginForm() {
             localStorage.setItem('username',res.username);
             localStorage.setItem('build', res.builds);
             localStorage.setItem('nbBuild', res.nb_builds);
-            navigate('/build_space');
+            navigate(`/your_space/${res.username}`);
         })
         
     };

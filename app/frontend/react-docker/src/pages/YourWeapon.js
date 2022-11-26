@@ -14,7 +14,7 @@ export function YourWeapon() {
     return (
         <div>
             <Void/>
-            <NavBar navBarLinks={navBarLinks} navBarTitle={navBarTitle}/>
+            <NavBar navBarTitle={navBarTitle}/>
             <WeaponStatsForm/>
         </div>
     )
