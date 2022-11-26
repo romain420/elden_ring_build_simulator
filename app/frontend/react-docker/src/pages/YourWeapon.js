@@ -15,7 +15,7 @@ export function YourWeapon() {
         <div>
             <Void/>
             <NavBar navBarTitle={navBarTitle}/>
-            <WeaponStatsForm/>
+            <p>Sorry we didn't start to develop this page yet</p>
         </div>
     )
 }

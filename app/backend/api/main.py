@@ -75,6 +75,16 @@ async def get_items():
     all_items = services.get_items(db)
     return all_items
 
+@app.get("/stats", status_code=200)
+async def get_stats():
+    all_stats = services.get_stats(db)
+    return all_stats
+
+@app.get("/charac_stat", status_code=200)
+async def get_stats():
+    all_stats = services.get_charac_stats(db)
+    return all_stats
+
 @app.get("/users_summary", status_code=200)
 async def display_all_users():
     all_names = services.get_summary(db) 
@@ -85,7 +95,12 @@ async def check_infos(username, password):
     response = services.check_information(db, username, password)
     return response
 
-@app.get("/{username}", status_code=200)   # else case, implement before this or you will encounter problems
+@app.get("/compute_stats", status_code=200)
+async def compute_stats(infos_json):
+    response = services.compute_statistics(db, infos_json)
+    return response
+
+@app.get("/{username}", status_code=200)
 async def display_specific_user(username):
     user_infos = services.get_user_infos(db, username)
     return user_infos
@@ -107,6 +122,14 @@ async def post_user_build(user_build: schemas.User_build):
 @app.post("/item", status_code=200)
 async def post_item(item: schemas.Item):
     services.create_item(db, item)
+
+@app.post("/stat", status_code=200)
+async def post_stat(stat: schemas.Stat):
+    services.create_stat(db, stat)
+
+@app.post("/charac_stats", status_code=200)
+async def post_charac_stats(stat: schemas.CharacStats):
+    services.create_charac_stats(db, stat)
 
 @app.post("/test", status_code=200)
 async def one_each():
@@ -176,6 +199,72 @@ async def one_each():
                                     nb_items=0,
                                     items_id=[],
                                     owner_username="to_grt")
+    stat1 = schemas.Stat(dexterity=0,
+                        faith=666,
+                        arcane=324,
+                        mind=7,
+                        strength=5,
+                        intelligence=999,
+                        vigor=12,
+                        endurance=546)
+    stat2 = schemas.Stat(dexterity=1,
+                        faith=2,
+                        arcane=3,
+                        mind=4,
+                        strength=5,
+                        intelligence=6,
+                        vigor=7,
+                        endurance=8)
+    stat3 = schemas.Stat(dexterity=9,
+                        faith=10,
+                        arcane=11,
+                        mind=12,
+                        strength=13,
+                        intelligence=14,
+                        vigor=15,
+                        endurance=16)
+    charac_stat1 = schemas.CharacStats(runeLevel=1,
+                                    HP=1,
+                                    FP=1,
+                                    stamina=1,
+                                    equipLoad=1,
+                                    physicalDefense=1,
+                                    magicDefense=1,
+                                    fireDefense=1,
+                                    lightningDefense=1,
+                                    holyDefense=1,
+                                    immunity=1,
+                                    robustness=1,
+                                    focus=1,
+                                    vitality=1)
+    charac_stat2 = schemas.CharacStats(runeLevel=5,
+                                    HP=5,
+                                    FP=5,
+                                    stamina=5,
+                                    equipLoad=5,
+                                    physicalDefense=5,
+                                    magicDefense=5,
+                                    fireDefense=5,
+                                    lightningDefense=5,
+                                    holyDefense=5,
+                                    immunity=5,
+                                    robustness=5,
+                                    focus=5,
+                                    vitality=5)
+    charac_stat3 = schemas.CharacStats(runeLevel=60,
+                                    HP=60,
+                                    FP=60,
+                                    stamina=60,
+                                    equipLoad=60,
+                                    physicalDefense=60,
+                                    magicDefense=60,
+                                    fireDefense=60,
+                                    lightningDefense=60,
+                                    holyDefense=60,
+                                    immunity=60,
+                                    robustness=60,
+                                    focus=60,
+                                    vitality=60)
     services.create_item(db, item1)
     services.create_item(db, item2)
     services.create_item(db, item3)
@@ -185,14 +274,15 @@ async def one_each():
     services.create_user_build(db, user_build1)
     services.create_user_build(db, user_build2)
     services.create_user_build(db, user_build3)
-
-@app.post("/delete_user_post")
-async def delete_user(username:str):
-    removed_user = services.delete_user(db, username)
-    return removed_user
+    services.create_stat(db, stat1)
+    services.create_stat(db, stat2)
+    services.create_stat(db, stat3)
+    services.create_charac_stats(db, charac_stat1)
+    services.create_charac_stats(db, charac_stat2)
+    services.create_charac_stats(db, charac_stat3)
 
 #-------------PUT PART-------------#
-@app.put("/user_last_visit")#TODO don't forget to change the name by 'update_user_info'
+@app.put("/user_last_visit")
 async def update_last_visit(user:schemas.User):
     update_user = services.update_user_info(db, user)
     return update_user
@@ -217,6 +307,16 @@ async def delete_user(username:str):
 async def delete_item(name:str):
     removed_item = services.delete_item(db, name)
     return removed_item
+
+@app.delete("/delete_stat")
+async def delete_stat(id:int):
+    removed_stat = services.delete_stat(db, id)
+    return removed_stat
+
+@app.delete("/delete_charac_stats")
+async def delete_charac_stats(id:int):
+    removed_stat = services.delete_charac_stats(db, id)
+    return removed_stat
 
 @app.delete("/delete_user_build")
 async def delete_user(id:int):

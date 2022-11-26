@@ -17,6 +17,7 @@ export const NavBar = ({navBarLinks, navBarTitle}) => {
         localStorage.removeItem('username');
         localStorage.removeItem('build');
         localStorage.removeItem('nbBuild');
+        localStorage.removeItem('stats');
         navigate('/');
     }
 
@@ -48,7 +49,7 @@ export const NavBar = ({navBarLinks, navBarTitle}) => {
                     Build
                 </a>
             </li>
-            <li className='navbar-item' style={{display: isConnect !== null ? 'block' : 'none'}}>
+            <li className='navbar-item' style={{display: isConnect !== null ? 'none' : 'none'}}>
                 <a className='navbar-link' href={`/your_weapon/${isConnect}`}>
                     Weapon
                 </a>

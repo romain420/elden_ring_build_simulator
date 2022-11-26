@@ -1,19 +1,36 @@
-import React from 'react'
+import React, { useState, useEffect }from 'react'
 import { useForm } from "react-hook-form";
+import { calculBasicStats } from "../services/userApi"
 import './WeaponForm.css'
 
-export function WeaponStatsForm() {
+export function WeaponStatsForm(props) {
     const {
         register,
         handleSubmit,
         watch,
         formState: { errors },
         reset
-      } = useForm();
+    } = useForm();
+
+    
 
     const onSubmit = (data) => {
-        alert(JSON.stringify(data))
+        // alert(JSON.stringify(data))
+        const stats = JSON.stringify(data);
+        // console.log(`this is data : ${JSON.stringify(stats)}`)
+        const url = `http://localhost:5000/compute_stats?infos_json=${stats}`;
+        // console.log(url)
+        calculBasicStats(url).then(res => {
+            // console.log(`this is stats info : ${res}`);
+            const response = JSON.stringify(res);
+            localStorage.setItem('stats', response);
+            props.setStatsInfo(res);            
+            // const userStats = res;
+        })
+        
     }
+
+
 
     return (
         <div>
