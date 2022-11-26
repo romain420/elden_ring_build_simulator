@@ -18,7 +18,7 @@ export default function App() {
         <Route path="/" element={<Home/>} />
         <Route path="/your_space/:username" element={<YourSpace/>} />
         <Route path="/your_weapon/:username" element={<YourWeapon/>} />
-        <Route path="/signin" element={<RegisterPage/>} />
+        <Route path="/signup" element={<RegisterPage/>} />
         <Route path="/login" element={<LoginPage/>} />
         <Route path="*" element={<ErrorPage/>} />
       </Routes>

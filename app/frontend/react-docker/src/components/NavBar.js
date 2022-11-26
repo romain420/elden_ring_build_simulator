@@ -60,7 +60,7 @@ export const NavBar = ({navBarLinks, navBarTitle}) => {
                 </a>
             </li>
             <li className='navbar-item' style={{display: isConnect === null ? 'block' : 'none'}}>
-                <a className='navbar-link' href='/signin'>
+                <a className='navbar-link' href='/signup'>
                     Sign Up
                 </a>
             </li>

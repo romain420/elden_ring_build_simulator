@@ -18,7 +18,7 @@ export function LoginPage() {
       <h2 className='form-title'>Login Form</h2>
       <LoginForm/>
       <div className='register'>
-        <a href='/signin' className='register-link'>Register Page →</a>
+        <a href='/signup' className='register-link'>Register Page →</a>
       </div>
     </div>
     
