@@ -7,6 +7,7 @@ import { firstRequest } from '../services/eldenRing';
 import { getUsers } from '../services/userApi';
 // import { ItemCard } from '../components/YourSpace/ItemCard';
 import { WeaponStatsForm } from '../components/WeaponStatsForm';
+import { Void } from '../components/Void';
 import './YourSpace.css';
 
 
@@ -55,6 +56,7 @@ export function YourSpace() {
 
     return (
         <div>
+            <Void/>
             <NavBar navBarLinks={navBarLinks} navBarTitle={navBarTitle}/>
             <div className='your-space-body'>
                 {/* <p>{userDatas[0]?.username}</p> */}

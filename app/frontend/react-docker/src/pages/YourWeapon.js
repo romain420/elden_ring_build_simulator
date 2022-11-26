@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavBar } from '../components/NavBar'
 import { WeaponStatsForm } from '../components/WeaponStatsForm';
+import { Void } from '../components/Void';
 
 const navBarLinks = [
     {url:"/", title:"Home"},
@@ -12,6 +13,7 @@ export function YourWeapon() {
     const navBarTitle = "Your Weapon"
     return (
         <div>
+            <Void/>
             <NavBar navBarLinks={navBarLinks} navBarTitle={navBarTitle}/>
             <WeaponStatsForm/>
         </div>
