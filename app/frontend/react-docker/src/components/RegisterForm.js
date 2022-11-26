@@ -23,11 +23,17 @@ export function RegisterForm() {
     const postUrl = "http://localhost:5000/user";
     // alert(JSON.stringify(data))
     postNewUser(postUrl, data)
-    //   .then(res => {
-    //   console.log(res.data)
-    // })
-    reset()
-    navigate('/login');
+      .then(res => {
+        console.log(res);
+        if(res.status === 200){
+          navigate('/login')
+        }
+        else{
+          alert('This username or email is already use');
+        }
+      })
+    // reset()
+    
   };
 
 

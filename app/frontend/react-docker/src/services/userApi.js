@@ -48,12 +48,12 @@ export async function postNewUser(url, data) {
     // // console.log("this is userData :",userData)
     // const type = "";
     // const message = "";
-    const result = await axios.post(url, data)
-        .then(function (response) {
-            alert("Your account has been successfully registered !");
+    return await axios.post(url, data)
+        .then(response => {
+            return response;
         })
-        .catch(function (error) {
-            alert("⚠ Error : Your 'User Name' or 'Email' is already use");
+        .catch((error) =>{
+            return error.status;
         });
 }
 //--------------------------------------------------//
