@@ -26,7 +26,8 @@ export function RegisterForm() {
       .then(res => {
         console.log(res);
         if(res.status === 200){
-          navigate('/login')
+          alert('User successfully register');
+          navigate('/login');
         }
         else{
           alert('This username or email is already use');
@@ -62,7 +63,7 @@ export function RegisterForm() {
       {errors?.Last_name?.type === "pattern" && (
         <p className="error-message">Alphabetical characters only</p>
       )}
-      <label className="form-label">User Name</label>
+      <label className="form-label">Username</label>
       <input className="form-input"
         {
           ...register("username", {
@@ -71,7 +72,7 @@ export function RegisterForm() {
             pattern: /^[A-Za-z0-9._]+$/i, 
           })
         }
-        placeholder = "User Name" 
+        placeholder = "Username" 
       /> 
       {errors?.username?.type === "required" && <p className="error-message">This field is required</p>}
       {errors?.username?.type === "maxLength" && (
@@ -97,7 +98,7 @@ export function RegisterForm() {
       {errors?.age?.type === "max" && (
         <p className="error-message">Hmmm.. the oldest person alive is about 118 years old. Please unter your age again</p>
       )}
-      <label className="form-label">Email Adress</label>
+      <label className="form-label">Email Address</label>
       <input className="form-input"
         {
           ...register("email", {

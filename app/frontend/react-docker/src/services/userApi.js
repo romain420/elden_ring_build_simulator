@@ -53,7 +53,7 @@ export async function postNewUser(url, data) {
             return response;
         })
         .catch((error) =>{
-            return error.status;
+            alert("⚠ This user or password is already use")
         });
 }
 //--------------------------------------------------//
