@@ -1,0 +1,28 @@
+.card{
+    background-color: #535154;
+    color: #000000; 
+    width: 50%;
+    height: 15%;
+    align-items: center;
+    border-radius: 10px;
+    padding: 25px;
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    margin-bottom: 1%;
+}
+
+.stat-card{
+    background-color: blue;
+    margin-right: 20%;
+}
+
+.picture-card{
+    background-color: green;
+}
+
+.card{
+    background-color: #535154!important;
+    display: flex!important;
+    flex-flow: row!important;
+}

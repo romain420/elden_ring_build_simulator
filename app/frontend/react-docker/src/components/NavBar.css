@@ -14,7 +14,7 @@
 
 .navbar-logo{
     color: #fff9bf;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: 215;
     font-size: 2.5rem;
 }
 
@@ -38,6 +38,7 @@
     border-width: 0px 0px 1px 0px;
     border-color: transparent;
     transition: 250ms;
+    cursor: pointer;
 }
 
 .navbar-link:hover{

@@ -1,12 +1,10 @@
-FROM node:14-alpine
+FROM node
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
-ENV PATH /app/node_modules/.bin:$PATH
+COPY package*.json ./
 
-COPY package.json ./
-COPY package-lock.json ./
-
+RUN npm install -g npm@9.1.2 
 RUN npm install
 
 COPY . .

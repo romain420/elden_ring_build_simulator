@@ -1,17 +1,21 @@
 # from msilib import schema
 from typing import List
 from sqlalchemy.orm import Session
+from sqlalchemy.sql.expression import select
 from fastapi import HTTPException
 import schemas, models
 from datetime import datetime
+import json
 
 
 #--------------------------user methods--------------------------#
+
+#---------------------GET PART---------------------#
 def get_users(db: Session):
     all_users = db.query(models.User).all()
     return all_users
 
-def get_user_builds(db: Session):
+def get_all_user_builds(db: Session):
     all_user_builds = db.query(models.User_build).all()
     return all_user_builds
 
@@ -33,43 +37,76 @@ def get_user_infos(db:Session, username:str):
     user = db.query(models.User).filter(models.User.username == username).first()
     if not user:
         return "This user does not exist"
-    to_return = "This user exists:    username: " + user.username + "    First name: " + user.First_name + "     Last name: " + user.Last_name
+    update_last_visit(db, user.username)
+    to_return = {}
+    to_return = {
+        "username":user.username,
+        "First_name": user.First_name,
+        "Last_name": user.Last_name,
+        "nb_builds":str(user.nb_builds),
+        "last_visit":str(user.last_visit),
+        "builds": ', '.join(user.builds)
+    }
+    return user
+
+def get_user_builds(db:Session, username:str):
+    user = db.query(models.User).filter(models.User.username == username).first()
+    if not user:
+        return "This user does not exist"
+    if user.nb_builds == 0:
+        return "This user does not have any build"
+    to_return = "Here are the builds of the user: " + user.username + ":"
+    for build in user.builds:
+        user_build = db.query(models.User_build).filter(models.User_build.name == build, models.User_build.owner_username == username).first()
+        to_return += "    " + build + " contains: " + user_build.items_id
     return to_return
 
-# create the activity in call in the 'main.py' to post the activity
-def create_user(db: Session, post: schemas.User) -> models.User:#TODO add condition to check if email adress or username is already use
-    record = db.query(models.User).filter(models.User.id == post.id).first()
-    if record:
-        raise HTTPException(status_code=409, detail= f"This user already exists")
-    db_post = models.User(**post.dict())
-    db.add(db_post)
+def check_information(db:Session, username:str, password:str):
+    user = db.query(models.User).filter(models.User.username == username).first()
+    if not user:
+        return "This user does not exist"
+    if user.password != password:
+        return "Wrong password, please check your informations"
+    to_return = get_user_infos(db, username)
+    return to_return
+
+#---------------------CREATION PART---------------------#
+def create_user(db: Session, post: schemas.User) -> models.User:
+    check_username = db.execute(select(models.User).where(models.User.username == post.username)).first()
+    if check_username:
+        raise HTTPException(status_code=409, detail= f"This username already exists, please choose another one")
+    check_email = db.execute(select(models.User).where(models.User.email == post.email)).first()
+    if check_email:
+        raise HTTPException(status_code=409, detail= f"This email already exists, please choose another one")
+    mandatory_dict = {'created_at': datetime.today(), 'last_visit': datetime.today(), 'nb_builds': 0, 'builds': []}
+    final_dict = {**post.dict(), **mandatory_dict}
+    user = models.User(**final_dict)
+    db.add(user)
     db.commit()
-    db.refresh(db_post)
-    db_post.id = str(db_post.id)
-    return db_post
+    return user
 
 def create_user_build(db: Session, post: schemas.User_build) -> models.User_build:
-    record = db.query(models.User_build).filter(models.User_build.id == post.id).first()
-    if record:
-        raise HTTPException(status_code=409, detail= f"This user_build already exists")
-    db_post = models.User_build(**post.dict())
-    db.add(db_post)
+    user_build = models.User_build(**post.dict())
+    owner_username = user_build.owner_username
+    user = db.query(models.User).filter(models.User.username == owner_username).first()
+    if not user:
+        raise HTTPException(status_code=404, detail= f"This user does not exist, cannot create a build for it")
+    db.query(models.User).filter(models.User.username == owner_username).update({"builds": models.User.builds + [user_build.name]})
+    user.nb_builds += 1
+    db.add(user_build)
     db.commit()
-    db.refresh(db_post)
-    db_post.id = str(db_post.id)
-    return db_post
+    return user_build
 
 def create_item(db: Session, post: schemas.Item) -> models.Item:
-    record = db.query(models.Item).filter(models.Item.id == post.id).first()
+    record = db.execute(select(models.Item).where(models.Item.name == post.name)).first()
     if record:
-        raise HTTPException(status_code=409, detail= f"This item already exists")
-    db_post = models.Item(**post.dict())
-    db.add(db_post)
+        raise HTTPException(status_code=409, detail= f"This Item already exists")
+    item = models.Item(**post.dict())
+    db.add(item)
     db.commit()
-    db.refresh(db_post)
-    db_post.id = str(db_post.id)
-    return db_post
+    return item
 
+#---------------------UPDATE PART---------------------#
 #update fields in table User
 def update_user_info(db:Session, update:schemas.User):#TODO try to update 1 field for the moment after that let's update 1 or more field at the same time
     record = db.query(models.User).filter(models.User.id == update.id).first()
@@ -82,11 +119,19 @@ def update_user_info(db:Session, update:schemas.User):#TODO try to update 1 fiel
     return f"{update.First_name} {update.Last_name} as log in {update.last_visit}"
 #models.User.last_visit == update.last_visit
 
+def update_last_visit(db:Session, username:str):
+    user = db.query(models.User).filter(models.User.username == username).first()
+    if not user:
+        raise HTTPException(status_code=404, detail= f"This user doesn't exist. We can't update it.")
+    user.last_visit = datetime.today()
+    db.commit()
+
+#---------------------DELETE PART---------------------#
 #this methode is suppose to remove all user info exept 'id' if user decide to remove his account
-def kill_user_info(db:Session, update:schemas.User):#TODO find a more complient way to smash the data (for loop or something)
-    record = db.query(models.User).filter(models.User.id == update.id).first()
+def kill_user_info(db:Session, username:str):#TODO find a more complient way to smash the data (for loop or something)
+    record = db.query(models.User).filter(models.User.username == username).first()
     if not record:
-        raise HTTPException(status_code=404, detail= f"User {update.First_name} {update.Last_name} doesn't exist. We can't modify it.")
+        raise HTTPException(status_code=404, detail= f"User {username} doesn't exist. We can't delete it.")
     # update_dict = dict(update)
     # # list_fields = update_dict
     # list_record = []
@@ -105,6 +150,64 @@ def kill_user_info(db:Session, update:schemas.User):#TODO find a more complient 
     record.builds = "none"
     db.commit()
     return "This user have been succesfully deleted"#f"this is the record list {list_record}"#
+
+def force_delete_user(db:Session, username:str):    #Don't ever use that, except for debugging or test purposes
+    user = db.query(models.User).filter(models.User.username == username).first()
+    if not user:
+        raise HTTPException(status_code=404, detail= f"User {username} doesn't exist. We can't delete it.")
+    db.delete(user)
+    db.commit()
+    return "user has been force deleted with success, be careful and look out for orphan user_builds"
+
+def delete_user(db:Session, username:str):
+    user = db.query(models.User).filter(models.User.username == username).first()
+    if not user:
+        raise HTTPException(status_code=404, detail= f"User {username} doesn't exist. We can't delete it.")
+    db.query(models.User_build).filter(models.User_build.owner_username == username).delete()
+    db.delete(user)
+    db.commit()
+    return "user deleted with success"
+    
+def delete_item(db:Session, name:str):
+    record = db.query(models.Item).filter(models.Item.name == name).first()
+    if not record:
+        raise HTTPException(status_code=404, detail= f"Item {name} doesn't exist. We can't delete it.")
+    db.delete(record)
+    db.commit()
+    return "item deleted with success, this should not happen, be careful for user_builds with missing items"
+
+def delete_user_build(db:Session, id:int):
+    build = db.query(models.User_build).filter(models.User_build.id == id).first()
+    if not build:
+        raise HTTPException(status_code=404, detail= f"User_build {id} doesn't exist. We can't delete it.")
+    owner = db.query(models.User).filter(models.User.username == build.owner_username).first()
+    if not owner:
+        raise HTTPException(status_code=404, detail= f"User_build {id} doesn't have an owner, this shouldn't be possible. We can't delete it.")
+    owner.nb_builds -= 1
+    db.delete(build)
+    db.commit()
+    return "user_build deleted with success"
+
+def delete_user_build_from_username(db:Session, username:str, build_name:str):
+    user = db.query(models.User).filter(models.User.username == username).first()
+    if not user:
+        raise HTTPException(status_code=404, detail= f"This user:" + username + " doesn't exist.")
+    user_build = db.query(models.User_build).filter(models.User_build.name == build_name, models.User_build.owner_username == user.username).first()
+    if not user_build:
+        raise HTTPException(status_code=404, detail= f"This build: " + build_name + " for the user:" + username + " doesn't exist. We can't delete it.")
+    user.nb_builds -= 1
+    user.builds.remove(user_build.name)
+    db.delete(user_build)
+    db.commit()
+    return "user_build deleted with success"
+
+def clear_data(db:Session): # /!\ Clear all the tables, be careful
+    db.query(models.User_build).delete()
+    db.query(models.Item).delete()
+    db.query(models.User).delete()
+    db.commit()
+    return "all tables has been clear"
+
     
 #********this methode is not alwode because we can not remove a masterdata from db********#
 #delete ligne in table User

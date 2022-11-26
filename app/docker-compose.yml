@@ -32,10 +32,11 @@ services:
     - "5432:5432"
 
   app:
-    build: ./frontend/react-docker/
+    build: ./frontend/react-docker
     command: ["npm", "start"]
     volumes:
-      - ./frontend/react-docker:/app
+      - ./frontend/react-docker:/usr/src/app
+      - /usr/src/app/node_modules
     ports:
       - "8000:3000"
 
