@@ -1,0 +1,14 @@
+.stat-ligne{
+    display:flex ;
+    flex-direction: row; 
+    text-align: left;
+    height: 30px;
+}
+
+.stat-name{
+    width: 200px;
+    font-weight: 215;
+}
+.stat-num{
+    color: #fff9bf; 
+}

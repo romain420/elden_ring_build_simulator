@@ -72,7 +72,7 @@ class Stat(BaseSQL):
 
 #table CharacStats
 class CharacStats(BaseSQL):
-    __tablename__ = "characStats"
+    __tablename__ = "charac_stats"
 
     id =                Column(Integer, primary_key=True) #auto-increment
     runeLevel =         Column(Integer, nullable=True)

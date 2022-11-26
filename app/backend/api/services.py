@@ -66,7 +66,8 @@ def check_information(db:Session, username:str, password:str):
         return "This user does not exist"
     if user.password != password:
         return "Wrong password, please check your informations"
-    to_return = get_user_infos(db, username)
+    to_return = {}
+    to_return = {"username":user.username,"nb_builds":user.nb_builds,"builds":user.builds}#get_user_infos(db, username)
     return to_return
 
 def compute_statistics(db:Session, infos_json:str):

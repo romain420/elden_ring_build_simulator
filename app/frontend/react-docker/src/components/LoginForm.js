@@ -20,7 +20,7 @@ export function LoginForm() {
         const userName = data.username;
         const password = data.password;
         const url = `http://localhost:5000/check_mdp?username=${userName}&password=${password}`;
-
+        
         confirmUser(url).then(res => {
             localStorage.setItem('username',res.username);
             localStorage.setItem('build', res.builds);

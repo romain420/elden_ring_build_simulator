@@ -17,6 +17,7 @@ export const NavBar = ({navBarLinks, navBarTitle}) => {
         localStorage.removeItem('username');
         localStorage.removeItem('build');
         localStorage.removeItem('nbBuild');
+        localStorage.removeItem('stats');
         navigate('/');
     }
 

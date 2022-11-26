@@ -1,8 +1,18 @@
 .your-space-body{
     color:aliceblue;
-    padding-top:80px;
-    margin-left: 10%;
+    padding-top:12%;
+    margin-left: 20%;
+    margin-right: 20%;
+    display:flex ;
+    flex-direction: row; 
+    text-align: center;
+    justify-content: space-between;
+    font-size: large;
 }
+
+/* .stats-form{
+    padding-right: 200 px;
+} */
 
 .request{
     color: aliceblue;
