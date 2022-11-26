@@ -3,7 +3,7 @@ from typing import List
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.expression import select
 from fastapi import HTTPException
-import schemas, models
+import schemas, models, calculus_ligth
 from datetime import datetime
 import json
 
@@ -23,6 +23,14 @@ def get_items(db: Session):
     all_items = db.query(models.Item).all()
     return all_items
 
+def get_stats(db: Session):
+    all_stats = db.query(models.Stat).all()
+    return all_stats
+
+def get_charac_stats(db: Session):
+    all_stats = db.query(models.CharacStats).all()
+    return all_stats
+
 def get_summary(db:Session):
     all_last_name = db.query(models.User.Last_name).all()
     all_first_name = db.query(models.User.First_name).all()
@@ -38,15 +46,6 @@ def get_user_infos(db:Session, username:str):
     if not user:
         return "This user does not exist"
     update_last_visit(db, user.username)
-    to_return = {}
-    to_return = {
-        "username":user.username,
-        "First_name": user.First_name,
-        "Last_name": user.Last_name,
-        "nb_builds":str(user.nb_builds),
-        "last_visit":str(user.last_visit),
-        "builds": ', '.join(user.builds)
-    }
     return user
 
 def get_user_builds(db:Session, username:str):
@@ -69,6 +68,13 @@ def check_information(db:Session, username:str, password:str):
         return "Wrong password, please check your informations"
     to_return = get_user_infos(db, username)
     return to_return
+
+def compute_statistics(db:Session, infos_json:str):
+    infos_dict = json.loads(infos_json)   # string json to python dictionary
+    stats = models.Stat(**infos_dict)
+    response_stat = calculus_ligth.stats(int(stats.vigor), int(stats.mind), int(stats.endurance), int(stats.strength), int(stats.dexterity), int(stats.intelligence), int(stats.faith), int(stats.arcane))
+    create_charac_stats_with_dict(db, response_stat)
+    return response_stat
 
 #---------------------CREATION PART---------------------#
 def create_user(db: Session, post: schemas.User) -> models.User:
@@ -105,6 +111,24 @@ def create_item(db: Session, post: schemas.Item) -> models.Item:
     db.add(item)
     db.commit()
     return item
+
+def create_stat(db:Session, post: schemas.Stat) -> models.Stat:
+    stats = models.Stat(**post.dict())
+    db.add(stats)
+    db.commit()
+    return stats
+
+def create_charac_stats(db:Session, post: schemas.CharacStats) -> models.CharacStats:
+    charac_stats = models.CharacStats(**post.dict())
+    db.add(charac_stats)
+    db.commit()
+    return charac_stats
+
+def create_charac_stats_with_dict(db:Session, dictionary: models.CharacStats) -> models.CharacStats:
+    charac_stats = models.CharacStats(**dictionary)
+    db.add(charac_stats)
+    db.commit()
+    return charac_stats
 
 #---------------------UPDATE PART---------------------#
 #update fields in table User
@@ -176,6 +200,22 @@ def delete_item(db:Session, name:str):
     db.commit()
     return "item deleted with success, this should not happen, be careful for user_builds with missing items"
 
+def delete_stat(db:Session, id:int):
+    stat = db.query(models.Stat).filter(models.Stat.id == id).first()
+    if not stat:
+        raise HTTPException(status_code=404, detail= f"Stat n°{id} doesn't exist. We can't delete it.")
+    db.delete(stat)
+    db.commit()
+    return "stat deleted with success"
+
+def delete_charac_stats(db:Session, id:int):
+    charac_stat = db.query(models.CharacStats).filter(models.CharacStats.id == id).first()
+    if not charac_stat:
+        raise HTTPException(status_code=404, detail= f"Character Statistics n°{id} doesn't exist. We can't delete it.")
+    db.delete(charac_stat)
+    db.commit()
+    return "Character Statistics deleted with success"
+
 def delete_user_build(db:Session, id:int):
     build = db.query(models.User_build).filter(models.User_build.id == id).first()
     if not build:
@@ -205,18 +245,7 @@ def clear_data(db:Session): # /!\ Clear all the tables, be careful
     db.query(models.User_build).delete()
     db.query(models.Item).delete()
     db.query(models.User).delete()
+    db.query(models.Stat).delete()
+    db.query(models.CharacStats).delete()
     db.commit()
     return "all tables has been clear"
-
-    
-#********this methode is not alwode because we can not remove a masterdata from db********#
-#delete ligne in table User
-# def delete_user_by_name(db: Session, delete:schemas.User):
-#     record = db.query(models.User).filter(models.User.First_name == delete.First_name).first()
-#     if not record:
-#         raise HTTPException(status_code=404, detail= f"User {delete.First_name} doesn't exist. We can't delete it.")
-#     db.delete(record)
-#     db.commit()
-#     return f"The user : {delete.First_name} has been deleted successfully"
-#******************************************************************************************#
-#-----------------------------------------------------------------#
