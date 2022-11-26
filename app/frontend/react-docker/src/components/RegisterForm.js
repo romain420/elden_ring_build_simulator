@@ -1,7 +1,8 @@
 import React, { useRef } from "react";
 import ReactDOM from "react-dom";
 import { useForm } from "react-hook-form";
-import { postNewUser } from "../services/userApi"
+import { postNewUser } from "../services/userApi";
+import { useNavigate } from "react-router-dom";
 import "./Form.css"
 
 export function RegisterForm() {
@@ -13,6 +14,8 @@ export function RegisterForm() {
     reset
   } = useForm();
 
+  const navigate = useNavigate();
+
   const password = useRef({});
   password.current = watch("password", "");
 
@@ -20,8 +23,11 @@ export function RegisterForm() {
     const postUrl = "http://localhost:5000/user";
     // alert(JSON.stringify(data))
     postNewUser(postUrl, data)
+    //   .then(res => {
+    //   console.log(res.data)
+    // })
     reset()
-    window.location.href = '/login';
+    navigate('/login');
   };
 
 

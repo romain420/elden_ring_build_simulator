@@ -11,26 +11,26 @@ export async function getUsers(url) {
 export async function confirmUser(url){
     // console.log("this is userCred :", url)
     return await axios.get(url)
-        .then(function(response) {
-            // return response;
-            if(response.data !== "This user does not exist"){
-                return response
+        .then((response) => {
+            if(response.data !== "This user does not exist" || response.data !== "Wrong password, please check your informations"){
+                // alert(response.data)
+                return response.data
             }
             else alert(response.data)
         })
-        // .catch(function (error) {
-        //     alert("⚠ Sorry but this user doesn't exist")
-        // })
+        .catch(function (error) {
+            alert("⚠ Sorry We have some issues with server.. Please try again later")
+        })
 }
 //------------------------------------------------//
 
 
 //-------------------POST REQUEST-------------------//
 export async function postNewUser(url, data) {
-    const userData = JSON.parse(JSON.stringify(data));
-    console.log("this is userData :",userData)
-    const type = "";
-    const message = "";
+    // const userData = JSON.parse(JSON.stringify(data));
+    // // console.log("this is userData :",userData)
+    // const type = "";
+    // const message = "";
     const result = await axios.post(url, data)
         .then(function (response) {
             alert("Your account has been successfully registered !");

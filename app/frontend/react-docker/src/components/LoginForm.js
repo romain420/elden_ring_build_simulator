@@ -1,7 +1,8 @@
 import React, { useRef } from "react";
 import ReactDOM from "react-dom";
 import { useForm } from "react-hook-form";
-import { confirmUser } from "../services/userApi"
+import { confirmUser, postNewUser } from "../services/userApi";
+import { useNavigate } from 'react-router-dom';
 import "./Form.css"
 
 export function LoginForm() {
@@ -12,28 +13,24 @@ export function LoginForm() {
         formState: { errors },
         reset
     } = useForm()
-
-    let [userConnect, setUserConnect] = React.useState([]);
+    
+    const navigate = useNavigate();
 
     const onSubmit = (data) => {
         const userName = data.username;
         const password = data.password;
-        const url = "http://localhost:5000/check_mdp?username=" + userName + "&password=" + password;
-        // alert(url)
-        confirmUser(url).them(function(res) {
-            console.log("this is user info :" + res.data)
+        const url = `http://localhost:5000/check_mdp?username=${userName}&password=${password}`;
+        
+        confirmUser(url).then(res => {
+            localStorage.setItem('username',res.username);
+            localStorage.setItem('build', res.builds);
+            localStorage.setItem('nbBuild', res.nb_builds);
         })
-        // React.useEffect(() => {
-        //     confirmUser(url).then(res => {
-        //         setUserConnect(res.data);
-        //     })
-        // }, []);
-        // console.log(userConnect[0])
-        // window.location.href = '/weapon';
+        navigate('/build_space');
     };
 
     return (
-        <form className="connect-form" onSubmit={handleSubmit(onSubmit)}>
+        <form className="connect-form" onSubmit={handleSubmit(onSubmit)} method="post"   >
             <label className="form-label">User Name</label>
             <input className="form-input"
                 {...register("username",{
