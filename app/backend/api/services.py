@@ -73,6 +73,7 @@ def check_information(db:Session, username:str, password:str):
 def compute_statistics(db:Session, infos_json:str):
     infos_dict = json.loads(infos_json)   # string json to python dictionary
     stats = models.Stat(**infos_dict)
+    create_stat_from_model(db, stats)
     response_stat = calculus_ligth.stats(int(stats.vigor), int(stats.mind), int(stats.endurance), int(stats.strength), int(stats.dexterity), int(stats.intelligence), int(stats.faith), int(stats.arcane))
     create_charac_stats_with_dict(db, response_stat)
     return response_stat
@@ -118,6 +119,11 @@ def create_stat(db:Session, post: schemas.Stat) -> models.Stat:
     db.add(stats)
     db.commit()
     return stats
+
+def create_stat_from_model(db:Session, post: models.Stat) -> models.Stat:
+    db.add(post)
+    db.commit()
+    return post
 
 def create_charac_stats(db:Session, post: schemas.CharacStats) -> models.CharacStats:
     charac_stats = models.CharacStats(**post.dict())
