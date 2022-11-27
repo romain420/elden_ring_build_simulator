@@ -17,7 +17,7 @@ You need to have:
 
 Installed on your distribution.  
 
-Normally you can launch app without any issues on the distribution of your choice: Linux *(Debian base)*, Windows and MAC *(but we don't had opportunity to test for the last one)*.  
+Normally you can launch app without any issues on the distribution of your choice: Linux *(Debian base)*, Windows and MAC *(but we didn't have the opportunity to test for the last one)*.  
 
 If you respect those conditions, we can go for the next step!  
 
@@ -30,11 +30,11 @@ In this part we will see how to get the project on your system.
 ```bash
 git clone <repository_link>
 ```  
-Normally you should be able to see **elden_ring_build_simulator** folder if you write command `ls`.  
+Normally you should be able to see the **elden_ring_build_simulator** folder if you write the command `ls`.  
 
 ### App launching
 
-Now let's start the tricky part. We are going to **launch the app** with only a few command.  
+Now let's start the tricky part. We are going to **launch the app** with only a few command.   
 
 1. Make sure you are in the project folder with the command  
 ```bash
@@ -83,9 +83,9 @@ Backend is composed of 2 different parts.
 CONTAINER ID   IMAGE      COMMAND                  CREATED          STATUS          PORTS                                               NAMES
 ************   app_api    "uvicorn main:app --…"   52 minutes ago   Up 52 minutes   80/tcp, 0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   app_api_1
 ```
-This container is the one that makes the interface between our **frontend app** and the **database**. It is host on port 5000, to access it just enter `localhost:5000` or `127.0.0.1:5000` in your browser navigator
+This container is the one that makes the interface between our **frontend app** and the **database**. It is host on port 5000, to access it, just enter `localhost:5000` or `127.0.0.1:5000` in your browser navigator
 It is a classical **REST API** realised with the [FastAPI](https://fastapi.tiangolo.com/) framework, where you can execute `GET`, `POST`, `PUT` and `DELETE` requests.  
-*If you want to access all of the API methodss you can unter `localhost:5000/docs`*
+*If you want to access all of the API methods you can enter `localhost:5000/docs`*
 
 #### Database  
 ```bash
