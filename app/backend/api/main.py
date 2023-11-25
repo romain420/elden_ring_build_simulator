@@ -9,7 +9,7 @@ from typing import Optional, List
 from fastapi.middleware.cors import CORSMiddleware
 
 
-models.BaseSQL.metadata.create_all(bind=engine)
+models.BaseSQL.metadata.create_all(bind=engine)  # C'est la ligne pour setup ma bdd
 
 
 app = FastAPI(
